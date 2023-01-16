@@ -142,141 +142,117 @@ const Register = () => {
       exit={{ opacity: 0 }}
       className=" py-4 absolute w-screen bottom-0 h-[calc(100vh-4rem)] flex items-center justify-center bg-login"
     >
-      <div className="container mx-auto p-4 bg-white">
-        <div className="w-full md:w-1/2 lg:w-1/3 mx-auto my-12">
-          <h1 className="text-lg font-bold">Create a new account</h1>
-          <div className="flex flex-col mt-4">
-            <div className="relative mb-5">
-              <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-                  />
-                </svg>
-              </div>
-              <input
-                type="text"
-                name="name"
-                value={credentials.name}
-                onChange={changeCredentials}
-                id="default-search"
-                className="block p-4 pl-12 w-full text-sm outline-none text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Name"
-                required
-              />
-            </div>
-            <div className="relative mb-5">
-              <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
-                  />
-                </svg>
-              </div>
-              <input
-                type="text"
-                name="username"
-                value={credentials.username}
-                onChange={changeCredentials}
-                id="default-search"
-                className="block p-4 pl-12 w-full text-sm outline-none text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Username"
-                required
-              />
-            </div>
-            <div className="relative mb-5">
-              <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
-                  />
-                </svg>
-              </div>
-              <input
-                type="email"
-                name="email"
-                value={credentials.email}
-                onChange={changeCredentials}
-                id="default-search"
-                className="block p-4 pl-12 w-full text-sm outline-none text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Email"
-                required
-              />
-            </div>
-            <div className="relative">
-              <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
-                  />
-                </svg>
-              </div>
-              <input
-                type="password"
-                name="password"
-                value={credentials.password}
-                onChange={changeCredentials}
-                id="default-search"
-                className="block p-4 pl-12 w-full outline-none text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Password"
-                required
-              />
-            </div>
-
-            <button
-              className="mt-4 px-4 py-3  leading-6 text-base rounded-md border border-transparent text-white focus:outline-none bg-blue-500 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex items-center w-full justify-center  font-medium "
-              onClick={regsiter}
+      <form className="w-full max-w-lg">
+        <div className="flex flex-wrap -mx-3 mb-6">
+          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              htmlFor="grid-first-name"
             >
-              Register
-            </button>
-            <div className="my-10" id="error" style={{ display: "none" }}></div>
-            <div className="flex flex-col items-center mt-5">
-              <p className="mt-1 text-xs font-light text-gray-500">
-                Already a member?
-                <Link to="/" className="ml-1 font-medium text-blue-700">
-                  login now
-                </Link>
-              </p>
-            </div>
+              First Name
+            </label>
+            <input
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              id="grid-first-name"
+              type="text"
+              placeholder="Jane"
+            />
+            <p className="text-red-500 text-xs italic">
+              Please fill out this field.
+            </p>
+          </div>
+          <div className="w-full md:w-1/2 px-3">
+            <label
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              htmlFor="grid-last-name"
+            >
+              Last Name
+            </label>
+            <input
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              id="grid-last-name"
+              type="text"
+              placeholder="Doe"
+            />
           </div>
         </div>
-      </div>
+        <div className="flex flex-wrap -mx-3 mb-6">
+          <div className="w-full px-3">
+            <label
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              htmlFor="grid-password"
+            >
+              Password
+            </label>
+            <input
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              id="grid-password"
+              type="password"
+              placeholder="******************"
+            />
+            <p className="text-gray-600 text-xs italic">
+              Make it as long and as crazy as you'd like
+            </p>
+          </div>
+        </div>
+        <div className="flex flex-wrap -mx-3 mb-2">
+          <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+            <label
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              htmlFor="grid-city"
+            >
+              City
+            </label>
+            <input
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              id="grid-city"
+              type="text"
+              placeholder="Albuquerque"
+            />
+          </div>
+          <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+            <label
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              htmlFor="grid-state"
+            >
+              State
+            </label>
+            <div className="relative">
+              <select
+                className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="grid-state"
+              >
+                <option>New Mexico</option>
+                <option>Missouri</option>
+                <option>Texas</option>
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg
+                  className="fill-current h-4 w-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+            <label
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              htmlFor="grid-zip"
+            >
+              Zip
+            </label>
+            <input
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              id="grid-zip"
+              type="text"
+              placeholder={90210}
+            />
+          </div>
+        </div>
+      </form>
     </motion.div>
   );
 };
