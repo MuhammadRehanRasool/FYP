@@ -2,7 +2,7 @@ import "./App.css";
 // import Login from "./auth/Login";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import Register from "./auth/Register";
-import Layout from "./Layouts/Layout";
+import Layout from "./layouts/Layout";
 import Landing from "./views/Landing";
 // import Home from "./views/Home";
 // import Subscription from "./views/Subscription";
