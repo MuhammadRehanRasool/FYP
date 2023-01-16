@@ -1,7 +1,7 @@
 import "./App.css";
 // import Login from "./auth/Login";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
-import PatientRegister from "./auth/PatientRegister";
+import Register from "./auth/Register";
 import Layout from "./Layouts/Layout";
 import Landing from "./views/Landing";
 // import Home from "./views/Home";
@@ -26,7 +26,8 @@ function App() {
             }
           />
           <Route path="/login" element={<Login />} /> */}
-          {/* <Route path="/patient-register" element={<PatientRegister />} /> */}
+          <Route path="/patient-register" element={<Register mode="patient"/>} />
+          <Route path="/doctor-register" element={<Register mode="doctor"/>} />
           <Route path="/" element={<Landing />} />
           {/* <Route
             path="/subscriptions"
