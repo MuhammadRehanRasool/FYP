@@ -4,72 +4,25 @@ import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import Register from "./auth/Register";
 import Layout from "./layouts/Layout";
 import Landing from "./views/Landing";
-// import Home from "./views/Home";
-// import Subscription from "./views/Subscription";
-// import Profile from "./views/Profile";
-// import DetailedSubscription from "./views/GetSubscription";
-// import TakeMeToAdmin from "./components/TakeMeToAdmin";
-// import GetSubscription from "./views/GetSubscription";
-// import ExploreSubscription from "./views/ExploreSubscription";
+import Login from "./auth/Login";
+import Home from "./views/Home";
+import Test from "./views/Test";
+import PatientPortal from "./patientPortal/PatientPortal";
 function App() {
   return (
     <div className="App">
       <Router>
         <Routes>
-          {/* <Route
-            path="/"
-            exact
-            element={
-              <Layout>
-                <Home />
-              </Layout>
-            }
-          />
-          <Route path="/login" element={<Login />} /> */}
-          <Route path="/patient-register" element={<Register mode="patient"/>} />
-          <Route path="/doctor-register" element={<Register mode="doctor"/>} />
-          <Route path="/" element={<Landing />} />
-          {/* <Route
-            path="/subscriptions"
-            element={
-              <Layout>
-                <Subscription />
-              </Layout>
-            }
-          />
+          <Route path="/patient-portal" element={<PatientPortal />} />
+          <Route path="/chat" element={<Test />} />
           <Route
-            path="/get-subscription/:id"
-            element={
-              <Layout>
-                <GetSubscription />
-              </Layout>
-            }
+            path="/patient-register"
+            element={<Register mode="patient" />}
           />
-          <Route
-            path="/explore-quiz/:id"
-            element={
-              <Layout>
-                <ExploreSubscription />
-              </Layout>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <Layout>
-                <Profile />
-              </Layout>
-            }
-          />
-          <Route path="/admin" element={<TakeMeToAdmin />} />
-          <Route
-            path="*"
-            element={
-              <Layout>
-                <Home />
-              </Layout>
-            }
-          /> */}
+          <Route path="/doctor-register" element={<Register mode="doctor" />} />
+          <Route path="/patient-login" element={<Login mode="patient" />} />
+          <Route path="/doctor-login" element={<Login mode="doctor" />} />
+          <Route path="*" element={<Landing />} />
         </Routes>
       </Router>
     </div>

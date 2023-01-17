@@ -1,0 +1,64 @@
+
+@media screen and (min-width: 768px) {
+    .section_scroll::-webkit-scrollbar {
+       width: 20px !important;
+    }
+ 
+    .section_scroll::-webkit-scrollbar-track {
+       background-color: transparent !important;
+       border-radius: 100px !important;
+    }
+ 
+    .section_scroll::-webkit-scrollbar-thumb {
+       border-radius: 100px !important;
+       border: 5px solid transparent !important;
+       background-clip: content-box !important;
+       background-color: #8070d4 !important;
+    }
+ }
+ 
+ .minimal_scroll::-webkit-scrollbar {
+    width: 15px !important;
+ }
+ 
+ .minimal_scroll::-webkit-scrollbar-track {
+    background-color: transparent !important;
+    border-radius: 100px !important;
+ }
+ 
+ .minimal_scroll::-webkit-scrollbar-thumb {
+    border-radius: 100px !important;
+    border: 5px solid transparent !important;
+    background-clip: content-box !important;
+    background-color: #8070d4 !important;
+ }
+ 
+ 
+ 
+ @media screen and (max-width: 768px) {
+    .section_scroll::-webkit-scrollbar {
+       display: none;
+    }
+    .section_scroll {
+       -ms-overflow-style: none;
+       scrollbar-width: none; /* Firefox */
+    }
+ }
+ 
+ .css-b62m3t,.css-1s2u09g-control{
+    background-color: transparent !important;
+ }
+ .section_scroll_hide::-webkit-scrollbar {
+   display: none;
+ }
+ .section_scroll_hide {
+   -ms-overflow-style: none;
+   scrollbar-width: none; /* Firefox */
+ }
+ .PhoneInputInput{
+    background-color: transparent;
+ }
+ .PhoneInputInput:focus{
+    outline: none;
+    background-color: transparent;
+ }

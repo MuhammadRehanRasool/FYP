@@ -3,24 +3,23 @@ import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
-export default function Landing() {
+export default function PatientPortal() {
   return (
     <div className="w-full">
-      <Navbar />
+      <Navbar mode="tt"/>
       <div className="">
         <div className="text-center mt-10 md:pb-16">
           <h1
             className="text-5xl md:text-6xl font-extrabold leading-tighter tracking-tighter mb-4 aos-init aos-animate"
             data-aos="zoom-y-out"
           >
-            When something feels off,
+            Welcome,
             <br />
             <div className="my-5"></div>
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400">
               {" "}
-              ChatDoc{" "}
+              John!{" "}
             </span>
-            it
           </h1>
           <div className="max-w-3xl mx-auto">
             <p
@@ -28,8 +27,7 @@ export default function Landing() {
               data-aos="zoom-y-out"
               data-aos-delay={150}
             >
-              We help people solve their health problems and find the right
-              treatment
+              Start your session!
             </p>
             <div
               className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center aos-init aos-animate"
@@ -39,7 +37,7 @@ export default function Landing() {
               <div>
                 <Link
                   className="bg-gradient-to-r px-5 py-3 rounded from-blue-500 to-teal-400 btn text-white bg-blue-600 hover:bg-blue-700 w-full mb-4 sm:w-auto sm:mb-0"
-                  to="#0"
+                  to="/chat"
                 >
                   Start Chat
                 </Link>
@@ -47,7 +45,7 @@ export default function Landing() {
             </div>
           </div>
         </div>
-        <div className="text-center mt-10 md:pb-16">
+        {/* <div className="text-center mt-10 md:pb-16">
           <h1 className="text-3xl text-gray-800 mb-8 aos-init aos-animate">
             Answers, options, onward
           </h1>
@@ -93,9 +91,9 @@ export default function Landing() {
             backgroundImage:
               "https://cdn.sanity.io/images/0b678gck/buoy-public-site/26ad698e8dcdb89f3d5499999ad57915bd01c703-1086x352.svg?w=1990&q=70&auto=format&dpr=1",
           }}
-        ></span>
+        ></span> */}
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
