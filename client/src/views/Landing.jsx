@@ -6,7 +6,6 @@ import Navbar from "../components/Navbar";
 export default function Landing() {
   return (
     <div className="w-full">
-      <Navbar />
       <div className="">
         <div className="text-center mt-10 md:pb-16">
           <h1
@@ -39,7 +38,7 @@ export default function Landing() {
               <div>
                 <Link
                   className="bg-gradient-to-r px-5 py-3 rounded from-blue-500 to-teal-400 btn text-white bg-blue-600 hover:bg-blue-700 w-full mb-4 sm:w-auto sm:mb-0"
-                  to="#0"
+                  to="/chat"
                 >
                   Start Chat
                 </Link>

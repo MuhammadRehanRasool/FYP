@@ -8,6 +8,8 @@ import Login from "./auth/Login";
 import Home from "./views/Home";
 import Test from "./views/Test";
 import PatientPortal from "./patientPortal/PatientPortal";
+import HowItWorks from "./views/HowItWorks";
+import Navbar from "./components/Navbar";
 function App() {
   return (
     <div className="App">
@@ -22,7 +24,22 @@ function App() {
           <Route path="/doctor-register" element={<Register mode="doctor" />} />
           <Route path="/patient-login" element={<Login mode="patient" />} />
           <Route path="/doctor-login" element={<Login mode="doctor" />} />
-          <Route path="*" element={<Landing />} />
+          <Route
+            path="/"
+            element={
+              <Layout>
+                <Landing />
+              </Layout>
+            }
+          />
+          <Route
+            path="/how-it-works"
+            element={
+              <Layout>
+                <HowItWorks />
+              </Layout>
+            }
+          />
         </Routes>
       </Router>
     </div>

@@ -35,6 +35,60 @@ export default function Test() {
                     chat.name == activeMember && active_member
                   } `}
                 >
+                  <div className="relative ml-3 bg-gray-100 dark:bg-gray-800 py-3 px-4 shadow rounded-xl max-w-[86%] md:max-w-lg text-left">
+                    <div className="flex items-center mb-2">
+                      <div className="flex items-center justify-center h-8 w-8 rounded-full bg-emerald-300 flex-shrink-0 text-gray-600 font-bold">
+                        {chat.name.substring(0, 1).toUpperCase()}
+                      </div>
+                      <span className="ml-2 text-gray-800 dark:text-gray-200 text-sm font-medium">
+                        {chat.name}
+                      </span>
+                    </div>
+
+                    {/* If chatbot ask a question and user select any options than It'll shows like a button otherwise its a normal */}
+                    {chat?.isOptionSelected ? (
+                      <button className="bg-gray-300 hover:bg-gray-400 hover:text-white text-gray-900 font-medium py-2 px-4 rounded-lg shadow-md transition-all duration-300 min-w-[10rem]">
+                        {chat.msg}
+                      </button>
+                    ) : (
+                      <div className="text-sm md:text-base text-gray-800 dark:text-gray-200 mb-2">
+                        {chat.msg}
+                      </div>
+                    )}
+
+                    {chat?.option && (
+                      <div className="grid grid-cols-2 gap-2">
+                        {chat.option.map((opt, index) => {
+                          if (index % 2 == 0) {
+                            return (
+                              <button className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow-md transition-all duration-300 min-w-[7rem]">
+                                {opt}
+                              </button>
+                            );
+                          } else {
+                            return (
+                              <button className="bg-gray-300 hover:bg-gray-400 hover:text-white text-gray-900 font-medium py-2 px-4 rounded-lg shadow-md transition-all duration-300 min-w-[7rem]">
+                                {opt}
+                              </button>
+                            );
+                          }
+                        })}
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              );
+            })}
+            {/* {chats.map((chat) => {
+              return (
+                <motion.div
+                  positionTransition
+                  initial={{ opacity: 0, y: 50, scale: 0.3 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  className={`flex flex-row items-center ${
+                    chat.name == activeMember && active_member
+                  } `}
+                >
                   <div className="relative ml-3 text-sm bg-white dark:bg-gray-800 py-2 px-4 shadow rounded-xl max-w-[86%] md:max-w-lg text-left">
                     <div className="flex items-center justify-start py-2">
                       <div className="flex items-center justify-center h-6 w-6 rounded-full bg-indigo-500 flex-shrink-0 text-xs">
@@ -49,7 +103,7 @@ export default function Test() {
                   </div>
                 </motion.div>
               );
-            })}
+            })} */}
 
             <div ref={messagesEndRef} />
           </div>
@@ -74,6 +128,58 @@ const chatsData = [
   {
     name: "John",
     msg: "No.",
+    isOptionSelected: true,
+    selectedOption: "No",
+  },
+  {
+    name: "Doctor Saloonke",
+    msg: "Which medical conditions do you have?",
+    option: null,
+  },
+  {
+    name: "John",
+    msg: "I have high blood pressure.",
+  },
+  {
+    name: "Doctor Saloonke",
+    msg: "Do you have any allergies?",
     option: ["Yes", "No"],
+  },
+  {
+    name: "John",
+    msg: "Yes.",
+    isOptionSelected: true,
+    selectedOption: "Yes",
+  },
+  {
+    name: "Doctor Saloonke",
+    msg: "Which allergies do you have?",
+    option: null,
+  },
+  {
+    name: "John",
+    msg: "I am allergic to peanuts.",
+    isOptionSelected: true,
+    selectedOption: "Peanuts",
+  },
+  {
+    name: "Doctor Saloonke",
+    msg: "Do you have any medical conditions?",
+    option: ["Yes", "No"],
+  },
+  {
+    name: "John",
+    msg: "Yes.",
+    isOptionSelected: true,
+    selectedOption: "Yes",
+  },
+  {
+    name: "Doctor Saloonke",
+    msg: "Which medical conditions do you have?",
+    option: null,
+  },
+  {
+    name: "John",
+    msg: "I have high blood pressure.",
   },
 ];

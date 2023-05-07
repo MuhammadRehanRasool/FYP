@@ -8,11 +8,12 @@ import axios from "axios";
 
 function Layout(props) {
   let navigate = useNavigate();
-  useEffect(() => {
-    if (checkLoginFromNonLogin()) {
-      navigate("/login");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (checkLoginFromNonLogin()) {
+  //     // navigate("/login");
+  //     navigate("/patient-login");
+  //   }
+  // }, []);
   let __init_session = {
     access_token: "",
     personal: {
