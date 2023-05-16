@@ -11,6 +11,8 @@ import PatientPortal from "./patientPortal/PatientPortal";
 import HowItWorks from "./views/HowItWorks";
 import Navbar from "./components/Navbar";
 import Session from "./views/Session";
+import Profile from "./views/Profile";
+import AboutUs from "./views/AboutUs";
 function App() {
   return (
     <div className="App">
@@ -42,6 +44,14 @@ function App() {
             }
           />
           <Route
+            path="/about-us"
+            element={
+              <Layout>
+                <AboutUs />
+              </Layout>
+            }
+          />
+          <Route
             path="/how-it-works"
             element={
               <Layout>
@@ -50,10 +60,18 @@ function App() {
             }
           />
           <Route
-            path="/session-patient"
+            path="/sessions"
             element={
               <Layout mode="tt">
                 <Session />
+              </Layout>
+            }
+          />
+          <Route
+            path="/my-profile"
+            element={
+              <Layout mode="tt">
+                <Profile />
               </Layout>
             }
           />

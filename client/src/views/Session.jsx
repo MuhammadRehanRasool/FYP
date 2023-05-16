@@ -2,17 +2,34 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Session = () => {
+  // For description
+  const [mode, setMode] = useState("doctor");
+
   const [sessions, setSessions] = useState(sessionsData);
   const [keywords, setKeywords] = useState(keywordsData);
   const [chats, setChats] = useState(chatsData);
   const [activeMember, setactiveMember] = useState("John");
   const active_member = "justify-end mr-4";
+  const keywordStyles = {
+    negative: {
+      container:
+        "py-2 px-4 border-2 border-yellow-200 rounded-full text-xs text-yellow-800 bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300",
+    },
+    neutral: {
+      container:
+        "py-2 px-4 text-xs border-2 border-gray-200 rounded-full text-gray-800 bg-gray-50 dark:bg-gray-800 dark:text-gray-300",
+    },
+    positive: {
+      container:
+        "py-2 px-4 text-xs border-2 border-green-200 rounded-full text-green-800 bg-green-50 dark:bg-gray-800 dark:text-green-400",
+    },
+  };
   return (
     <div className=" md:px-16 text-center h-[calc(100vh-180px)] max-h-[calc(100vh-180px)] overflow-hidden">
       <div className="flex items-start  space-x-8 h-full max-h-full overflow-hidden">
         <div className="w-[20%] h-full bg-white">
           <select
-            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 h-12 mb-4"
+            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 text-sm px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 h-8 mb-4"
             id="grid-state"
           >
             <option>Newly Added</option>
@@ -91,34 +108,13 @@ const Session = () => {
           <div className="h-[20%] ">
             <div className="flex justify-start items-start flex-wrap  gap-4">
               {keywords.map((keyword, index) => {
-                if (keyword.type == "negative") {
-                  return (
-                    <div
-                      className="py-2 px-4 border-2 border-yellow-200 rounded-full  text-xs text-yellow-800  bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
-                      role="alert"
-                    >
-                      {keyword.name}
-                    </div>
-                  );
-                } else if (keyword.type == "neutral") {
-                  return (
-                    <div
-                      className="py-2 px-4 text-xs border-2 border-gray-200 rounded-full  text-gray-800  bg-gray-50 dark:bg-gray-800 dark:text-gray-300"
-                      role="alert"
-                    >
-                      {keyword.name}
-                    </div>
-                  );
-                } else {
-                  return (
-                    <div
-                      className="py-2 px-4 text-xs border-2 border-green-200 rounded-full    text-green-800  bg-green-50 dark:bg-gray-800 dark:text-green-400"
-                      role="alert"
-                    >
-                      {keyword.name}
-                    </div>
-                  );
-                }
+                const keywordStyle = keywordStyles[keyword.type];
+
+                return (
+                  <div className={keywordStyle.container} role="alert">
+                    {keyword.name}
+                  </div>
+                );
               })}
             </div>
           </div>
@@ -130,17 +126,21 @@ const Session = () => {
               <p className="text-sm">Date: 28 May, 2023</p>
             </div>
             <div className="bg-gray-50 px-4 py-4 text-sm text-gray-800 h-full">
-              <p className="overflow-y-auto h-full pb-10">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Delectus quas excepturi at quos fugit similique unde vitae eos
-                tempora eligend incidunt eligendi Lorem ipsum dolor, sit amet
-                consectetur adipisicing elit. Perferendis aliquam distinctio
-                aperiam dicta est enim animi explicabo eveniet, alias laborum
-                magni iusto nisi voluptates voluptatum esse minus consequatur
-                consequuntur! Suscipit. ducimus dicta repellat. Eligendi
-                nesciunt aspernatur explicabo officiis laborum aliquid aut
-                quidem laudantium rem tempora!
-              </p>
+              {mode == "doctor" ? (
+                <textarea className="w-full h-full bg-transparent outline-none"></textarea>
+              ) : (
+                <p className="overflow-y-auto h-full pb-10">
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                  Delectus quas excepturi at quos fugit similique unde vitae eos
+                  tempora eligend incidunt eligendi Lorem ipsum dolor, sit amet
+                  consectetur adipisicing elit. Perferendis aliquam distinctio
+                  aperiam dicta est enim animi explicabo eveniet, alias laborum
+                  magni iusto nisi voluptates voluptatum esse minus consequatur
+                  consequuntur! Suscipit. ducimus dicta repellat. Eligendi
+                  nesciunt aspernatur explicabo officiis laborum aliquid aut
+                  quidem laudantium rem tempora!
+                </p>
+              )}
             </div>
           </div>
 
@@ -148,9 +148,6 @@ const Session = () => {
             {chats.map((chat) => {
               return (
                 <div
-                  positionTransition
-                  initial={{ opacity: 0, y: 50, scale: 0.3 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
                   className={`flex flex-row items-center ${
                     chat.name == activeMember && active_member
                   } `}
@@ -206,10 +203,6 @@ const Session = () => {
   );
 };
 const sessionsData = [
-  {
-    name: "session",
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, repellat!",
-  },
   {
     name: "session",
     desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, repellat!",
