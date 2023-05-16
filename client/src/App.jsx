@@ -10,12 +10,21 @@ import Test from "./views/Test";
 import PatientPortal from "./patientPortal/PatientPortal";
 import HowItWorks from "./views/HowItWorks";
 import Navbar from "./components/Navbar";
+import Session from "./views/Session";
 function App() {
   return (
     <div className="App">
       <Router>
         <Routes>
-          <Route path="/patient-portal" element={<PatientPortal />} />
+          {/* <Route path="/patient-portal" element={<PatientPortal />} /> */}
+          <Route
+            path="/patient-portal"
+            element={
+              <Layout mode="tt">
+                <PatientPortal />
+              </Layout>
+            }
+          />
           <Route path="/chat" element={<Test />} />
           <Route
             path="/patient-register"
@@ -37,6 +46,14 @@ function App() {
             element={
               <Layout>
                 <HowItWorks />
+              </Layout>
+            }
+          />
+          <Route
+            path="/session-patient"
+            element={
+              <Layout mode="tt">
+                <Session />
               </Layout>
             }
           />

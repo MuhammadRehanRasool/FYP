@@ -455,10 +455,10 @@ const Register = (props) => {
           </>
         )}
         <div className="my-5"></div>
-        <div class="flex flex-col items-center mb-5">
-          <p class="mt-1 text-sm font-light text-gray-800">
+        <div className="flex flex-col items-center mb-5">
+          <p className="mt-1 text-sm font-light text-gray-800">
             Already a member?
-            <Link class="ml-1 font-medium text-blue-400" to={`/${props.mode}-login`}>
+            <Link className="ml-1 font-medium text-blue-400" to={`/${props.mode}-login`}>
               Login now.
             </Link>
           </p>

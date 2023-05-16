@@ -44,6 +44,7 @@ function Layout(props) {
           isLoggedIn={session.isLoggedIn}
           __init_session={__init_session}
           setSession={setSession}
+          mode={props?.mode}
         />
         <div className="mt-5">{props.children}</div>
       </div>

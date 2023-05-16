@@ -6,7 +6,7 @@ import Navbar from "../components/Navbar";
 export default function PatientPortal() {
   return (
     <div className="w-full">
-      <Navbar mode="tt"/>
+      {/* <Navbar mode="tt"/> */}
       <div className="">
         <div className="text-center mt-10 md:pb-16">
           <h1
@@ -53,33 +53,33 @@ export default function PatientPortal() {
             ChatDoc is the best way to learn about:
           </p>
           <div className="flex justify-center items-center">
-            <div class="cursor-pointer mx-2 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+            <div className="cursor-pointer mx-2 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
               <a href="#">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                   What's going on
                 </h5>
               </a>
-              <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
                 ChatDoc listens and helps you make sense of symptoms
               </p>
             </div>
-            <div class="cursor-pointer mx-2 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+            <div className="cursor-pointer mx-2 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
               <a href="#">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                   How to fix it
                 </h5>
               </a>
-              <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
                 Self-care or urgent care? ChatDoc provides the right next steps
               </p>
             </div>
-            <div class="cursor-pointer mx-2 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+            <div className="cursor-pointer mx-2 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
               <a href="#">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                   Whether you're covered
                 </h5>
               </a>
-              <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
                 Use ChatDoc to see which options make most sense financially
               </p>
             </div>
