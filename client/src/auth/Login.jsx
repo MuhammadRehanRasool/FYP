@@ -198,21 +198,21 @@ const Login = (props) => {
           </div>
         </div>
         <div className="my-5"></div>
-        <div class="flex flex-col items-center mb-5">
-          <p class="mt-1 text-sm font-light text-gray-800">
+        <div className="flex flex-col items-center mb-5">
+          <p className="mt-1 text-sm font-light text-gray-800">
             Don't have a account?
             <Link
-              class="ml-1 font-medium text-blue-400"
+              className="ml-1 font-medium text-blue-400"
               to={`/${props.mode}-register`}
             >
               Register now.
             </Link>
           </p>
           {props.mode === "patient" ? (
-            <p class="mt-1 text-sm font-light text-gray-800">
+            <p className="mt-1 text-sm font-light text-gray-800">
               Want to access doctor portal?
               <Link
-                class="ml-1 font-medium text-blue-400"
+                className="ml-1 font-medium text-blue-400"
                 to={`/${"doctor"}-login`}
               >
                 Login here.
