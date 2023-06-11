@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 // import ChatParticipant from "./ChatParticipant";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-const ChatBox = ({ setactiveMember, activeMember, setChats, chats }) => {
+const ChatBox = ({ setactiveMember, activeMember, setChats, chats, sendMessage }) => {
   const [settingOpen, setSettingOpen] = useState(false);
   const [roomOpen, setRoomOpen] = useState(false);
   const [message, setMessage] = useState("");
@@ -11,22 +11,23 @@ const ChatBox = ({ setactiveMember, activeMember, setChats, chats }) => {
   // handle send message button
   const handleSend = () => {
     if (message.trim() != "") {
-      console.log(message);
-      setChats([
-        ...chats,
-        {
-          name: activeMember,
-          msg: message,
-        },
-      ]);
+      // console.log(message);
+      // setChats([
+      //   ...chats,
+      //   {
+      //     name: activeMember,
+      //     msg: message,
+      //   },
+      // ]);
+      sendMessage(message);
       setMessage("");
     }
   };
 
-  const removeParticipant = (name) => {
-    const filter = participants.filter((e) => e.name !== name);
-    setparticipants(filter);
-  };
+  // const removeParticipant = (name) => {
+  //   const filter = participants.filter((e) => e.name !== name);
+  //   setparticipants(filter);
+  // };
   return (
     <>
       <div className="h-[128px] md:h-auto rounded-xl fixed left-0 bottom-0 md:relative  py-3 md:py-2 px-3  bg-white dark:bg-slate-900 w-full md:px-4 ">
@@ -95,21 +96,21 @@ const ChatBox = ({ setactiveMember, activeMember, setChats, chats }) => {
   );
 };
 
-const participantsData = [
-  {
-    name: "Henry Boyd",
-  },
-  {
-    name: "John doe",
-  },
-  {
-    name: "Will Smith",
-  },
-  {
-    name: "Alison Wilson",
-  },
-  {
-    name: "Iron Man",
-  },
-];
+// const participantsData = [
+//   {
+//     name: "Henry Boyd",
+//   },
+//   {
+//     name: "John doe",
+//   },
+//   {
+//     name: "Will Smith",
+//   },
+//   {
+//     name: "Alison Wilson",
+//   },
+//   {
+//     name: "Iron Man",
+//   },
+// ];
 export default ChatBox;

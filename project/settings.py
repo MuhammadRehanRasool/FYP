@@ -144,3 +144,5 @@ AUTH_USER_MODEL = 'api.CustomUser'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "migrane-rkss-55be99e81de2.json"

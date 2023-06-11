@@ -32,55 +32,8 @@ class ViewUsersSerializer(serializers.ModelSerializer):
             "timestamp",
         )
 
-class ViewCategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Category
-        fields = "__all__"
+# class ViewCategorySerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = models.Category
+#         fields = "__all__"
 
-
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Category
-        fields = "__all__"
-
-
-class ViewBrandSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Brand
-        fields = "__all__"
-
-
-class BrandSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Brand
-        fields = "__all__"
-
-
-class ViewColorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Color
-        fields = "__all__"
-
-
-class ColorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Color
-        fields = "__all__"
-
-
-class ViewApparelSerializer(serializers.ModelSerializer):
-    category = ViewCategorySerializer()
-    class Meta:
-        model = models.Apparel
-        fields = "__all__"
-
-
-class ApparelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Apparel
-        fields = "__all__"
-
-class OutfitSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Outfit
-        fields = "__all__"

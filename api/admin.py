@@ -16,14 +16,10 @@ class UserAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.CustomUser, UserAdmin)
-admin.site.register(models.Category)
-admin.site.register(models.Brand)
-admin.site.register(models.Color)
-admin.site.register(models.Apparel)
-admin.site.register(models.Outfit)
+# admin.site.register(models.Category)
 
 
-admin.site.site_header = "Virtual Wardrobe Management System ✨"
+admin.site.site_header = "FYP Backend System ✨"
 admin.site.site_title = "Admin"
 admin.site.index_title = "Website Administration"
 
