@@ -19,8 +19,13 @@ export default function Landing() {
               {" "}
               ChatDoc{" "}
             </span>
-            it
+            it.
           </h1>
+          <div class="my-10 relative w-full h-[20vh] overflow-hidden">
+            <img src="https://c1.wallpaperflare.com/preview/532/1002/497/doctor-surgeon-operation-instruments.jpg" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-black opacity-50"></div>
+          </div>
+
           <div className="max-w-3xl mx-auto">
             <p
               className="text-xl text-gray-600 mb-8 aos-init aos-animate"
