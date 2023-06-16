@@ -1,7 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar(props) {
+  let navigate = useNavigate();
+  const logout = async () => {
+    sessionStorage.removeItem("loggedin");
+    props.setSession(props.__init_session);
+    navigate("/login");
+  };
   return (
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-900">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
@@ -11,7 +17,7 @@ export default function Navbar(props) {
           </span>
         </Link>
         <div className="flex md:order-2">
-          {props.mode !== "tt" ? (
+          {!props?.isLoggedIn ? (
             <>
               {" "}
               <Link
@@ -27,19 +33,19 @@ export default function Navbar(props) {
                 Register as a Doctor
               </Link>
               <Link
-                to="/patient-login"
+                to="/login"
                 className="ml-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Login
               </Link>
             </>
           ) : (
-            <Link
-              to="/doctor-register"
-              className="ml-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            <button
+              onClick={logout}
+              className="ml-3 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
             >
               Logout
-            </Link>
+            </button>
           )}
           <button
             data-collapse-toggle="navbar-cta"
@@ -69,7 +75,7 @@ export default function Navbar(props) {
           id="navbar-cta"
         >
           <ul className="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            {props.mode !== "tt" ? (
+            {!props?.isLoggedIn ? (
               <>
                 {" "}
                 <li>

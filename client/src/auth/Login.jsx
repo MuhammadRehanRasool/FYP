@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { axiosInstance } from "../axiosApi";
 import {
   CONSTANT,
   setMessage,
@@ -9,8 +8,9 @@ import {
   checkLoginFromLogin,
   capitalizeFirstLetter,
 } from "../CONSTANT";
+import axios from "axios";
 
-const Login = (props) => {
+const Login = () => {
   const navigate = useNavigate();
   //   useEffect(() => {
   //     if (checkLoginFromLogin()) {
@@ -20,102 +20,40 @@ const Login = (props) => {
 
   const __init = {
     username: "",
-    email: "",
     password: "",
-    name: "",
   };
-  const [credentials, setCredentials] = useState(__init);
-  const changeCredentials = (e) => {
-    setCredentials({
-      ...credentials,
+
+  const [payload, setPayload] = useState(__init);
+  const changePayload = (e) => {
+    setPayload({
+      ...payload,
       [e.target.name]: e.target.value,
     });
   };
 
-  const regsiter = async (e) => {
+  const login = async (e) => {
     e.target.style.pointerEvents = "none";
     e.target.innerHTML =
       '<div className="spinner-border custom-spin" role="status"><span className="visually-hidden">Loading...</span></div>';
     e.preventDefault();
     resetMessage();
-    if (
-      credentials.email !== "" &&
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(credentials.email)
-    ) {
-      if (
-        credentials.password !== "" &&
-        credentials.username !== "" &&
-        credentials.name !== ""
-      ) {
-        await axiosInstance
-          .post("authentication/users", {
-            ...credentials,
-          })
+    if (payload.username !== "") {
+      if (payload.password !== "") {
+        await axios
+          .post(CONSTANT.server + "validate", payload)
           .then((responce) => {
             if (responce.status === 200) {
               let res = responce.data;
               if (res.message) {
-                let message = "";
-                if (res.message.email) {
-                  message += "Email : ";
-                  message += "Already exists!" + "<br/>";
-                }
-                if (res.message.username) {
-                  message += "Username : ";
-                  message += "Already exists!" + "<br/>";
-                }
-                if (res.message.password) {
-                  message += "Password : ";
-                  message +=
-                    res.message.password.map((a, b) => {
-                      return a + " ";
-                    }) + "<br/>";
-                }
-                if (res.message.name) {
-                  message += "Name : ";
-                  message +=
-                    res.message.name.map((a, b) => {
-                      return a + " ";
-                    }) + "<br/>";
-                }
-                setMessage(message, "red-500");
+                setMessage(res.message, "red-500");
               } else {
-                axiosInstance
-                  .post("authentication/token/obtain", {
-                    username: credentials.username,
-                    password: credentials.password,
+                sessionStorage.setItem(
+                  "loggedin",
+                  JSON.stringify({
+                    data: res,
                   })
-                  .then((response) => {
-                    if (response.data) {
-                      axiosInstance.defaults.headers["Authorization"] =
-                        "JWT " + response.data.access;
-                      localStorage.setItem(
-                        "access_token",
-                        response.data.access
-                      );
-                      localStorage.setItem(
-                        "refresh_token",
-                        response.data.refresh
-                      );
-                      localStorage.setItem(
-                        "loggedin",
-                        JSON.stringify({
-                          data: {
-                            id: response.data.id,
-                            name: response.data.name,
-                            email: response.data.email,
-                            username: response.data.username,
-                            name: response.data.name,
-                            signedUpAt: response.data.signedUpAt,
-                          },
-                        })
-                      );
-                      navigate("/");
-                    }
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                  });
+                );
+                navigate("/");
               }
             }
           })
@@ -123,13 +61,13 @@ const Login = (props) => {
             console.log(error);
           });
       } else {
-        setMessage("Fill All Fields", "red-500");
+        setMessage("Please enter password", "red-500");
       }
     } else {
-      setMessage("Please Enter Valid Email", "red-500");
+      setMessage("Please enter username", "red-500");
     }
     e.target.style.pointerEvents = "unset";
-    e.target.innerHTML = "Register";
+    e.target.innerHTML = "Log In";
   };
 
   return (
@@ -158,11 +96,7 @@ const Login = (props) => {
         className="text-5xl md:text-6xl font-extrabold leading-tighter tracking-tighter mb-4 aos-init aos-animate"
         data-aos="zoom-y-out"
       >
-        Login as
-        <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400">
-          {" "}
-          {capitalizeFirstLetter(props.mode)}
-        </span>
+        Login
       </h1>
       <div className="w-full max-w-lg mt-10">
         <div className="flex flex-wrap -mx-3 mb-3">
@@ -175,9 +109,12 @@ const Login = (props) => {
             </label>
             <input
               className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              id="grid-first-name"
+              id="grid-password"
               type="text"
-              placeholder="johndoe@gmail.com"
+              name="username"
+              placeholder=""
+              value={payload.username}
+              onChange={changePayload}
             />
           </div>
         </div>
@@ -191,9 +128,12 @@ const Login = (props) => {
             </label>
             <input
               className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              id="grid-first-name"
+              id="grid-password"
               type="password"
-              placeholder="************"
+              name="password"
+              placeholder=""
+              value={payload.password}
+              onChange={changePayload}
             />
           </div>
         </div>
@@ -203,32 +143,20 @@ const Login = (props) => {
             Don't have a account?
             <Link
               className="ml-1 font-medium text-blue-400"
-              to={`/${props.mode}-register`}
+              to={`/patient-register`}
             >
               Register now.
             </Link>
           </p>
-          {props.mode === "patient" ? (
-            <p className="mt-1 text-sm font-light text-gray-800">
-              Want to access doctor portal?
-              <Link
-                className="ml-1 font-medium text-blue-400"
-                to={`/${"doctor"}-login`}
-              >
-                Login here.
-              </Link>
-            </p>
-          ) : (
-            ""
-          )}
+          <p id="error" className="mt-3 text-sm font-light"></p>
         </div>
         <div className="flex justify-center">
-          <Link
-            to="/patient-portal"
+          <button
+            onClick={login}
             className="text-center bg-gradient-to-r px-5 py-3 rounded from-blue-500 to-teal-400 btn text-white bg-blue-600 hover:bg-blue-700 w-full mb-4 sm:w-auto sm:mb-0"
           >
             Login
-          </Link>
+          </button>
         </div>
       </div>
     </motion.div>

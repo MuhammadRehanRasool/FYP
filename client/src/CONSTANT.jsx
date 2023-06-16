@@ -7,19 +7,19 @@ import axios from "axios";
 
 export const CONSTANT = {
   client: "http://localhost:3000/", // CHANGE WITH YOUR BACKEND LINK (/ is MUST IN END)
-  server: "http://127.0.0.1:8000/", // CHANGE WITH YOUR FRONTEND LINK (/ is MUST IN END)
+  server: "http://127.0.0.1:8000/api/", // CHANGE WITH YOUR FRONTEND LINK (/ is MUST IN END)
 };
 
 export const checkLoginFromLogin = () => {
-  return localStorage.getItem("loggedin") &&
-    JSON.parse(localStorage.getItem("loggedin")).data
+  return sessionStorage.getItem("loggedin") &&
+    JSON.parse(sessionStorage.getItem("loggedin")).data
     ? true
     : false;
 };
 
 export const checkLoginFromNonLogin = () => {
-  return localStorage.getItem("loggedin") &&
-    JSON.parse(localStorage.getItem("loggedin")).data
+  return sessionStorage.getItem("loggedin") &&
+    JSON.parse(sessionStorage.getItem("loggedin")).data
     ? false
     : true;
 };

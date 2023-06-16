@@ -27,7 +27,7 @@ function Layout(props) {
   };
   const [session, setSession] = useState(__init_session);
   useEffect(() => {
-    let sessionData = JSON.parse(localStorage.getItem("loggedin"));
+    let sessionData = JSON.parse(sessionStorage.getItem("loggedin"));
     if (sessionData) {
       setSession({
         access_token: "",

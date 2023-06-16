@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { axiosInstance } from "../axiosApi";
+import { getCountries } from "@loophq/country-state-list";
 import {
   CONSTANT,
   setMessage,
@@ -9,125 +9,104 @@ import {
   checkLoginFromLogin,
   capitalizeFirstLetter,
 } from "../CONSTANT";
+import axios from "axios";
 
 const Register = (props) => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // useEffect(() => {
   //   if (checkLoginFromLogin()) {
   //     navigate("/");
   //   }
   // }, []);
 
+  const [countries, setCountries] = useState(getCountries());
+
   const __init = {
+    firstName: "",
+    lastName: "",
     username: "",
+    gender: "male",
+    dateOfBirth: "",
+    phoneNumber: "",
     email: "",
     password: "",
-    name: "",
+    country: "Pakistan",
+    state: "Sindh",
+    street: "",
+    existingConditions: "",
+    allergies: "",
+    currentMedications: "",
+    days: "",
+    hours: "",
+    speciality: "",
+    affiliation: "",
   };
-  const [credentials, setCredentials] = useState(__init);
-  const changeCredentials = (e) => {
-    setCredentials({
-      ...credentials,
+
+  const [payload, setPayload] = useState(__init);
+  const changePayload = (e) => {
+    setPayload({
+      ...payload,
       [e.target.name]: e.target.value,
     });
   };
-
-  const regsiter = async (e) => {
+  const register = async (e) => {
     e.target.style.pointerEvents = "none";
     e.target.innerHTML =
       '<div className="spinner-border custom-spin" role="status"><span className="visually-hidden">Loading...</span></div>';
     e.preventDefault();
     resetMessage();
-    if (
-      credentials.email !== "" &&
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(credentials.email)
-    ) {
+    if (props?.mode !== "") {
       if (
-        credentials.password !== "" &&
-        credentials.username !== "" &&
-        credentials.name !== ""
+        payload.email !== "" &&
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(payload.email)
       ) {
-        await axiosInstance
-          .post("authentication/users", {
-            ...credentials,
-          })
-          .then((responce) => {
-            if (responce.status === 200) {
-              let res = responce.data;
-              if (res.message) {
-                let message = "";
-                if (res.message.email) {
-                  message += "Email : ";
-                  message += "Already exists!" + "<br/>";
+        if (
+          payload.firstName !== "" &&
+          payload.lastName !== "" &&
+          payload.dateOfBirth !== "" &&
+          payload.phoneNumber !== "" &&
+          payload.country !== "" &&
+          payload.username !== "" &&
+          payload.state !== "" &&
+          (props.mode !== "doctor" ||
+            (props.mode === "doctor" && payload.speciality !== ""))
+        ) {
+          if (payload.password.length >= 8) {
+            await axios
+              .post(CONSTANT.server + "user", {
+                ...payload,
+                userType: props.mode,
+              })
+              .then((response) => {
+                let res = response.data;
+                if (res.message) {
+                  setMessage(res.message, "red-500");
+                } else {
+                  sessionStorage.setItem(
+                    "loggedin",
+                    JSON.stringify({
+                      data: res,
+                    })
+                  );
+                  navigate("/");
                 }
-                if (res.message.username) {
-                  message += "Username : ";
-                  message += "Already exists!" + "<br/>";
-                }
-                if (res.message.password) {
-                  message += "Password : ";
-                  message +=
-                    res.message.password.map((a, b) => {
-                      return a + " ";
-                    }) + "<br/>";
-                }
-                if (res.message.name) {
-                  message += "Name : ";
-                  message +=
-                    res.message.name.map((a, b) => {
-                      return a + " ";
-                    }) + "<br/>";
-                }
-                setMessage(message, "red-500");
-              } else {
-                axiosInstance
-                  .post("authentication/token/obtain", {
-                    username: credentials.username,
-                    password: credentials.password,
-                  })
-                  .then((response) => {
-                    if (response.data) {
-                      axiosInstance.defaults.headers["Authorization"] =
-                        "JWT " + response.data.access;
-                      localStorage.setItem(
-                        "access_token",
-                        response.data.access
-                      );
-                      localStorage.setItem(
-                        "refresh_token",
-                        response.data.refresh
-                      );
-                      localStorage.setItem(
-                        "loggedin",
-                        JSON.stringify({
-                          data: {
-                            id: response.data.id,
-                            name: response.data.name,
-                            email: response.data.email,
-                            username: response.data.username,
-                            name: response.data.name,
-                            signedUpAt: response.data.signedUpAt,
-                          },
-                        })
-                      );
-                      navigate("/");
-                    }
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                  });
-              }
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          } else {
+            setMessage("Password should have atleast 8 letters.", "red-500");
+          }
+        } else {
+          setMessage("Please fill in all the required fields.", "red-500");
+        }
       } else {
-        setMessage("Fill All Fields", "red-500");
+        setMessage("Please enter a valid email address.", "red-500");
       }
     } else {
-      setMessage("Please Enter Valid Email", "red-500");
+      setMessage("No mode of registeration selected.", "red-500");
     }
+
     e.target.style.pointerEvents = "unset";
     e.target.innerHTML = "Register";
   };
@@ -157,58 +136,53 @@ const Register = (props) => {
         className="text-5xl md:text-6xl font-extrabold leading-tighter tracking-tighter mb-4 aos-init aos-animate"
         data-aos="zoom-y-out"
       >
-        Register as
+        Register as{" "}
         <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400">
-          {" "}
           {capitalizeFirstLetter(props.mode)}
         </span>
       </h1>
       <div className="w-full max-w-lg mt-10">
         <div className="flex flex-wrap -mx-3 mb-3">
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              htmlFor="grid-first-name"
-            >
-              First Name
+            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+              First Name<span className="text-red-500">*</span>
             </label>
             <input
               className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              id="grid-first-name"
               type="text"
-              placeholder="Jane"
+              onChange={changePayload}
+              name="firstName"
+              value={payload.firstName}
             />
           </div>
           <div className="w-full md:w-1/2 px-3">
-            <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              htmlFor="grid-last-name"
-            >
-              Last Name
+            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+              Last Name<span className="text-red-500">*</span>
             </label>
             <input
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="grid-last-name"
               type="text"
-              placeholder="Doe"
+              onChange={changePayload}
+              name="lastName"
+              value={payload.lastName}
             />
           </div>
         </div>
         <div className="flex flex-wrap -mx-3 mb-3">
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              htmlFor="grid-city"
-            >
-              Gender
+            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+              Gender<span className="text-red-500">*</span>
             </label>
             <div className="relative">
               <select
                 className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-state"
+                onChange={changePayload}
+                name="gender"
+                value={payload.gender}
               >
-                <option>Male</option>
-                <option>Female</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                 <svg
@@ -220,49 +194,45 @@ const Register = (props) => {
                 </svg>
               </div>
             </div>
-          </div>{" "}
+          </div>
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              htmlFor="grid-password"
-            >
-              Date of Birth
+            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+              Date of Birth<span className="text-red-500">*</span>
             </label>
             <input
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="grid-password"
               type="date"
-              placeholder="******************"
+              onChange={changePayload}
+              name="dateOfBirth"
+              value={payload.dateOfBirth}
             />
           </div>
         </div>
         <div className="flex flex-wrap -mx-3 mb-3">
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              htmlFor="grid-password"
-            >
-              Phone Number
+            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+              Phone Number<span className="text-red-500">*</span>
             </label>
             <input
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="grid-password"
-              type="number"
-              placeholder="xxx-xxx-......."
+              type="tel"
+              onChange={changePayload}
+              name="phoneNumber"
+              value={payload.phoneNumber}
+              placeholder=""
             />
           </div>
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              htmlFor="grid-password"
-            >
-              Email Address
+            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+              Email Address<span className="text-red-500">*</span>
             </label>
             <input
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="grid-password"
               type="email"
-              placeholder="Email..."
+              onChange={changePayload}
+              name="email"
+              value={payload.email}
+              placeholder=""
             />
           </div>
         </div>
@@ -270,17 +240,58 @@ const Register = (props) => {
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label
               className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              htmlFor="grid-city"
+              htmlFor="grid-password"
             >
-              Country
+              Username<span className="text-red-500">*</span>
+            </label>
+            <input
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              id="grid-password"
+              type="text"
+              name="username"
+              placeholder=""
+              value={payload.username}
+              onChange={changePayload}
+            />
+          </div>
+          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              htmlFor="grid-password"
+            >
+              Password<span className="text-red-500">*</span>
+            </label>
+            <input
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              id="grid-password"
+              type="password"
+              name="password"
+              placeholder=""
+              value={payload.password}
+              onChange={changePayload}
+            />
+          </div>
+        </div>
+        <div className="flex flex-wrap -mx-3 mb-3">
+          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+              Country<span className="text-red-500">*</span>
             </label>
             <div className="relative">
               <select
                 className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-state"
+                onChange={changePayload}
+                name="country"
+                value={payload.country}
               >
-                <option>Pakistan</option>
-                <option>India</option>
+                {countries.map((a, b) => {
+                  return (
+                    <option key={a?.code} value={a?.name}>
+                      {a?.name}
+                    </option>
+                  );
+                })}
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                 <svg
@@ -294,19 +305,31 @@ const Register = (props) => {
             </div>
           </div>
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              htmlFor="grid-state"
-            >
-              City
+            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+              State<span className="text-red-500">*</span>
             </label>
             <div className="relative">
               <select
                 className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-state"
+                onChange={changePayload}
+                name="state"
+                value={payload.state}
               >
-                <option>Karachi</option>
-                <option>Larkana</option>
+                {countries
+                  .filter((a, b) => {
+                    if (payload.country === "") {
+                      return false;
+                    }
+                    return a.name === payload.country;
+                  })[0]
+                  ?.states?.map((a, b) => {
+                    return (
+                      <option key={a} value={a}>
+                        {a}
+                      </option>
+                    );
+                  })}
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                 <svg
@@ -320,26 +343,29 @@ const Register = (props) => {
             </div>
           </div>
         </div>
+
         <div className="flex flex-wrap -mx-3 mb-3">
           <div className="w-full md:w-1/1 px-3 mb-6 md:mb-0">
             <label
               className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
               htmlFor="grid-zip"
             >
-              Street
+              Street<span className="text-red-500">*</span>
             </label>
             <input
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-zip"
               type="text"
-              placeholder={"..."}
+              onChange={changePayload}
+              name="street"
+              value={payload.street}
+              placeholder=""
             />
           </div>
         </div>
 
         {props.mode === "patient" ? (
           <>
-            {" "}
             <div className="flex flex-wrap -mx-3 mb-3">
               <div className="w-full md:w-1/1 px-3 mb-6 md:mb-0">
                 <label
@@ -352,7 +378,10 @@ const Register = (props) => {
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                   id="grid-first-name"
                   type="text"
-                  placeholder="..."
+                  name="existingConditions"
+                  placeholder=""
+                  value={payload.existingConditions}
+                  onChange={changePayload}
                 />
               </div>
             </div>
@@ -368,7 +397,10 @@ const Register = (props) => {
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                   id="grid-first-name"
                   type="text"
-                  placeholder="..."
+                  name="allergies"
+                  placeholder=""
+                  value={payload.allergies}
+                  onChange={changePayload}
                 />
               </div>
             </div>
@@ -384,14 +416,16 @@ const Register = (props) => {
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                   id="grid-first-name"
                   type="text"
-                  placeholder="..."
+                  name="currentMedications"
+                  value={payload.currentMedications}
+                  placeholder=""
+                  onChange={changePayload}
                 />
               </div>
             </div>
           </>
         ) : (
           <>
-            {" "}
             <div className="flex flex-wrap -mx-3 mb-3">
               <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 <label
@@ -404,7 +438,10 @@ const Register = (props) => {
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                   id="grid-first-name"
                   type="text"
-                  placeholder="Monday"
+                  name="days"
+                  placeholder="Monday, Tuesday..."
+                  value={payload.days}
+                  onChange={changePayload}
                 />
               </div>
               <div className="w-full md:w-1/2 px-3">
@@ -418,7 +455,10 @@ const Register = (props) => {
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-last-name"
                   type="text"
-                  placeholder="12:00"
+                  name="hours"
+                  placeholder="03:00-06:00"
+                  value={payload.hours}
+                  onChange={changePayload}
                 />
               </div>
             </div>
@@ -428,15 +468,20 @@ const Register = (props) => {
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                   htmlFor="grid-first-name"
                 >
-                  Speciality
+                  Speciality<span className="text-red-500">*</span>
                 </label>
                 <input
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                   id="grid-first-name"
                   type="text"
-                  placeholder="..."
+                  name="speciality"
+                  placeholder=""
+                  value={payload.speciality}
+                  onChange={changePayload}
                 />
               </div>
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-3">
               <div className="w-full md:w-1/1 px-3 mb-6 md:mb-0">
                 <label
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -448,23 +493,31 @@ const Register = (props) => {
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                   id="grid-first-name"
                   type="text"
-                  placeholder="..."
+                  name="affiliation"
+                  placeholder=""
+                  value={payload.affiliation}
+                  onChange={changePayload}
                 />
               </div>
             </div>
           </>
         )}
+
         <div className="my-5"></div>
-        <div className="flex flex-col items-center mb-5">
+        <div className="flex flex-col items-center mb-3">
           <p className="mt-1 text-sm font-light text-gray-800">
             Already a member?
-            <Link className="ml-1 font-medium text-blue-400" to={`/${props.mode}-login`}>
+            <Link className="ml-1 font-medium text-blue-400" to={`/login`}>
               Login now.
             </Link>
           </p>
+          <p id="error" className="mt-3 text-sm font-light"></p>
         </div>
         <div className="flex justify-center">
-          <button className="text-center bg-gradient-to-r px-5 py-3 rounded from-blue-500 to-teal-400 btn text-white bg-blue-600 hover:bg-blue-700 w-full mb-4 sm:w-auto sm:mb-0">
+          <button
+            onClick={register}
+            className="text-center bg-gradient-to-r px-5 py-3 rounded from-blue-500 to-teal-400 btn text-white bg-blue-600 hover:bg-blue-700 w-full mb-4 sm:w-auto sm:mb-0"
+          >
             Register
           </button>
         </div>

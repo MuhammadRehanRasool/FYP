@@ -3,14 +3,32 @@ from . import models
 
 
 class UsersSerializer(serializers.ModelSerializer):
-    """
-    Currently unused in preference of the below.
-    """
     password = serializers.CharField(min_length=8, write_only=True)
 
     class Meta:
         model = models.CustomUser
-        fields = ('id', 'username', 'password')
+        fields = (
+            'id',
+            'password',
+            'userType',
+            'firstName',
+            'lastName',
+            'username',
+            'gender',
+            'dateOfBirth',
+            'phoneNumber',
+            'email',
+            'country',
+            'state',
+            'street',
+            'existingConditions',
+            'allergies',
+            'currentMedications',
+            'days',
+            'hours',
+            'speciality',
+            'affiliation',
+        )
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
@@ -23,17 +41,33 @@ class UsersSerializer(serializers.ModelSerializer):
 
 
 class ViewUsersSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = models.CustomUser
         fields = (
-            "id",
+            'id',
+            'timestamp',
+            'userType',
+            'firstName',
+            'lastName',
             'username',
-            "timestamp",
+            'gender',
+            'dateOfBirth',
+            'phoneNumber',
+            'email',
+            'country',
+            'state',
+            'street',
+            'existingConditions',
+            'allergies',
+            'currentMedications',
+            'days',
+            'hours',
+            'speciality',
+            'affiliation',
         )
+
 
 # class ViewCategorySerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = models.Category
 #         fields = "__all__"
-

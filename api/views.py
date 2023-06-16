@@ -1,3 +1,6 @@
+import dialogflow
+from google.api_core.exceptions import InvalidArgument
+from rest_framework.response import Response
 import json
 from rest_framework import status
 from . import serializers
@@ -8,6 +11,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.hashers import make_password, check_password
+
 
 def add_admin():
     try:
@@ -23,7 +27,7 @@ def add_admin():
         print("ADMIN ADDED")
 
 
-# add_admin()
+add_admin()
 
 
 @api_view(['POST'])
@@ -71,7 +75,7 @@ def user(request, pk=None):
                 instance, many=False)
             return JsonResponse(SerializedData.data, status=status.HTTP_200_OK)
         return JsonResponse({
-            "message": "Username or email already exists"
+            "message": "Username or email already exists."
         },  status=status.HTTP_200_OK)
     if request.method == "PUT":
         # UPDATE A USER
@@ -87,52 +91,47 @@ def user(request, pk=None):
         return JsonResponse({
             "message": "Username/Email already exists"
         },  status=status.HTTP_200_OK)
-    
-from rest_framework.decorators import api_view
-from rest_framework.parsers import JSONParser
-from rest_framework.response import Response
-from rest_framework import status
-from google.api_core.exceptions import InvalidArgument
-import dialogflow
-import json
+
 
 DIALOGFLOW_PROJECT_ID = 'migrane-rkss'
 DIALOGFLOW_LANGUAGE_CODE = 'en-US'
 
+
 @api_view(['POST', 'PUT', 'GET', 'DELETE'])
 def get_bot_response(request, pk=None):
-    if request.method == "GET":
-        return JsonResponse({}, status=status.HTTP_200_OK)
-    elif request.method == "POST":
+    if request.method == "POST":
         data = request.data
         user_input = data["user_input"]
         session_id = data["session_id"]
 
         session_client = dialogflow.SessionsClient()
-        session = session_client.session_path(DIALOGFLOW_PROJECT_ID, session_id)
-        text_input = dialogflow.types.TextInput(text=user_input, language_code=DIALOGFLOW_LANGUAGE_CODE)
+        session = session_client.session_path(
+            DIALOGFLOW_PROJECT_ID, session_id)
+        text_input = dialogflow.types.TextInput(
+            text=user_input, language_code=DIALOGFLOW_LANGUAGE_CODE)
         query_input = dialogflow.types.QueryInput(text=text_input)
-        
+
         try:
-            response = session_client.detect_intent(session=session, query_input=query_input)
+            response = session_client.detect_intent(
+                session=session, query_input=query_input)
         except InvalidArgument:
             return JsonResponse({
                 "message": "System error. Please try again."
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
+
         bot_response = str(response.query_result.fulfillment_text)
         intent = str(response.query_result.intent.display_name)
 
         # print("Fulfillment text:", bot_response)
         # print("Detected intent:", intent)
-        
+
         bot_response = bot_response.split('%')
 
         if len(bot_response) > 1:
             token = bot_response[1]
         else:
             token = ""
-        
+
         bot_response = bot_response[0]
 
         chat_ended = False
@@ -171,4 +170,3 @@ def get_bot_response(request, pk=None):
             "button_type": button_type,
             "chat_ended": chat_ended,
         }, status=status.HTTP_200_OK)
-

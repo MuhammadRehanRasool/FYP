@@ -33,8 +33,7 @@ function App() {
             element={<Register mode="patient" />}
           />
           <Route path="/doctor-register" element={<Register mode="doctor" />} />
-          <Route path="/patient-login" element={<Login mode="patient" />} />
-          <Route path="/doctor-login" element={<Login mode="doctor" />} />
+          <Route path="/login" element={<Login />} />
           <Route
             path="/"
             element={

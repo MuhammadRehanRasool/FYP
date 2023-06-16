@@ -1,0 +1,35 @@
+Message from bot
+Structure:
+1. type -> str -> [open, close]
+2. is_last -> bool -> [true, false]
+3. message -> str
+4. options -> array -> [...]
+
+-> []
+
+
+
+
+
+
+
+
+1. current Question dataset -> [migraine]
+2. questions are fixed
+3. 16 total (10-11 close)
+4. for every user -> min-1 max-16
+
+keywords -> 1-16 -> migraine oriented
+
+1. 
+
+
+
+
+
+
+
+
+
+
+
