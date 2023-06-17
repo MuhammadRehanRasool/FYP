@@ -264,7 +264,12 @@ def conversation(request, pk=None):
             query = models.Conversation.objects.filter(
                 Q(user__id=int(user_id)) & ~Q(sessionId=''),
             ).values('sessionId').distinct()
-        session_ids = list(query)
-        return JsonResponse(session_ids, safe=False)
-        # serializer = serializers.ViewConversationSerializer(query, many=True)
-        # return JsonResponse(serializer.data, safe=False)
+            session_ids = list(query)
+            return JsonResponse(session_ids, safe=False)
+        elif type == "chats":
+            session_id = data["session_id"]
+            query = models.Conversation.objects.filter(
+                Q(user__id=int(user_id)) & Q(sessionId=session_id)
+            ).order_by('timestamp')
+        serializer = serializers.ViewConversationSerializer(query, many=True)
+        return JsonResponse(serializer.data, safe=False)
