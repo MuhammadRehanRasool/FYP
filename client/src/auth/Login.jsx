@@ -12,11 +12,11 @@ import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
-  //   useEffect(() => {
-  //     if (checkLoginFromLogin()) {
-  //     //   navigate("/");
-  //     }
-  //   }, []);
+    useEffect(() => {
+      if (checkLoginFromLogin()) {
+        navigate("/");
+      }
+    }, []);
 
   const __init = {
     username: "",
@@ -105,7 +105,7 @@ const Login = () => {
               className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
               htmlFor="grid-first-name"
             >
-              Email/Username
+              Username
             </label>
             <input
               className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"

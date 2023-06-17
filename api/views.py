@@ -11,6 +11,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.hashers import make_password, check_password
+from django.db.models import Q
 
 
 def add_admin():
@@ -27,7 +28,7 @@ def add_admin():
         print("ADMIN ADDED")
 
 
-add_admin()
+# add_admin()
 
 
 @api_view(['POST'])
@@ -75,7 +76,7 @@ def user(request, pk=None):
                 instance, many=False)
             return JsonResponse(SerializedData.data, status=status.HTTP_200_OK)
         return JsonResponse({
-            "message": "Username or email already exists."
+            "message": "Username or email already exists"
         },  status=status.HTTP_200_OK)
     if request.method == "PUT":
         # UPDATE A USER
@@ -141,12 +142,13 @@ def get_bot_response(request, pk=None):
             if str(user_input).lower() == "yes":
                 category = "migraine with aura"
             elif str(user_input).lower() == "no":
-                category = "migraine with aura"
+                category = "migraine without aura"
 
         if token == " end_token":
             chat_ended = True
         elif token == "result_token":
             bot_response = f"Based on your responses, it appears that you have a {category}. We recommend waiting for the doctor's response on our portal, where they will provide you with further guidance and appropriate management of your condition. They will review your responses in detail and offer personalized advice and treatment options based on your specific needs."
+            chat_ended = True
 
         with open('static/Buttons.json') as json_file:
             data = json.load(json_file)
@@ -159,14 +161,110 @@ def get_bot_response(request, pk=None):
                 if token.strip() == data[i]["token"]:
                     button = data[i]["button"]
                     button_type = data[i]["button_type"]
+                    # break
 
-        # TEMP CORRECTION
-        if len(button_type) == 0:
-            button_type = "open"
+        question_tags = {
+            "token#1": "Intensity",
+            "token#2": "Duration",
+            "token#3": "Patterns",
+            "token#4": "Factors",
+            "token#5": "Trigger",
+            "token#6": "Symptoms",
+            "token#7": "Daily Occurrence",
+            "token#8": "Time",
+            "token#9": "Medication",
+            "token#10": "Changes in Symptoms",
+            "token#11": "Health Condition",
+            "token#12": "Family History",
+            "token#13": "During Headaches"
+        }
 
+        if token != "":
+            question_tag = question_tags.get(token.strip())
+        else:
+            question_tag = None
+
+    return JsonResponse({
+        "type": "open" if token == "" else "close",
+        "message": bot_response,
+        "button": button,
+        "button_type": button_type,
+        "is_last": chat_ended,
+        "question_tag": question_tag,
+    }, status=status.HTTP_200_OK)
+
+
+# button = [
+#     {"id": "yes_btn", "text": "Yes"},
+#     {"id": "no_btn", "text": "No"}
+# ]
+
+
+# unique_intents = set()
+
+# for btn in button_data:
+#     intent = btn.get("intent", "")
+#     if intent:
+#         unique_intents.add(intent)
+
+# print(unique_intents)
+
+
+# ...
+
+# if intent == "headache - intensity":
+#     question_tag = "Intensity"
+# elif intent == "headache - duration":
+#     question_tag = "Duration"
+# elif intent == "headache - patterns":
+#     question_tag = "Patterns"
+# elif intent == "headache - factors":
+#     question_tag = "Factors"
+# elif intent == "trigger":
+#     question_tag = "Trigger"
+# elif intent == "symptoms":
+#     question_tag = "Symptoms"
+# elif intent == "daily":
+#     question_tag = "Daily Occurrence"
+# elif intent == "time":
+#     question_tag = "Time"
+# elif intent == "headache-med":
+#     question_tag = "Medication"
+# elif intent == "headache-change":
+#     question_tag = "Changes in Symptoms"
+# elif intent == "headache-health":
+#     question_tag = "Health Condition"
+# elif intent == "headache-family":
+#     question_tag = "Family History"
+# elif intent == "headache-during":
+#     question_tag = "During Headaches"
+# else:
+#     question_tag = None
+
+
+@api_view(['POST', 'PUT', 'GET'])
+def conversation(request, pk=None):
+    if request.method == "POST":
+        # ADD A MESSAGE
+        data = JSONParser().parse(request)
+        serializer = serializers.ConversationSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+        print(serializer.errors)
         return JsonResponse({
-            "english": bot_response,
-            "button": button,
-            "button_type": button_type,
-            "chat_ended": chat_ended,
-        }, status=status.HTTP_200_OK)
+            "message": "Something went wrong..."
+        },  status=status.HTTP_200_OK)
+    if request.method == "PUT":
+        # GET THINGS
+        data = JSONParser().parse(request)
+        type = data["type"]
+        user_id = data["user_id"]
+        if type == "sessions":
+            query = models.Conversation.objects.filter(
+                Q(user__id=int(user_id)) & ~Q(sessionId=''),
+            ).values('sessionId').distinct()
+        session_ids = list(query)
+        return JsonResponse(session_ids, safe=False)
+        # serializer = serializers.ViewConversationSerializer(query, many=True)
+        # return JsonResponse(serializer.data, safe=False)

@@ -1,66 +1,85 @@
-
 [
-    {
-        "token": "token#1",
-        "button": [
-            {"id":"yes_btn", "text":"Yes"},
-            {"id":"no_btn", "text":"No"}
-        ],
-        "button_type": "normal"
-    },
+  {
+    "token": "token#1",
+    "button": [
+      { "id": "yes_btn", "text": "Yes", "color": "blue" },
+      { "id": "no_btn", "text": "No", "color": "gray" }
+    ],
+    "button_type": "normal"
+  },
 
-    {
-        "token": "token#2",
-        "button": [
-            {"id":"intensity_btn1", "text":"Mild"},
-            {"id":"intensity_btn2", "text":"Moderate"},
-            {"id":"intensity_btn3", "text":"Severe"}
-        ],
-        "button_type": "normal"
-    },
+  {
+    "token": "token#2",
+    "button": [
+      { "id": "intensity_btn1", "text": "Mild", "color": "green" },
+      { "id": "intensity_btn2", "text": "Moderate", "color": "blue" },
+      { "id": "intensity_btn3", "text": "Severe", "color": "red" }
+    ],
+    "button_type": "normal"
+  },
 
-    {
-        "token": "token#3",
-        "button": [
-            {"id":"nature_btn1", "text":"Throbbing"},
-            {"id":"nature_btn2", "text":"pulsating"},
-            {"id":"nature_btn3", "text":"dull"},
-            {"id":"nature_btn4", "text":"stabbing"},
-            {"id":"nature_btn5", "text":"other"}
-        ],
-        "button_type": "normal"
-    },
+  {
+    "token": "token#3",
+    "button": [
+      { "id": "nature_btn1", "text": "Throbbing", "color": "blue" },
+      { "id": "nature_btn2", "text": "Pulsating", "color": "blue" },
+      { "id": "nature_btn3", "text": "Dull", "color": "gray" },
+      { "id": "nature_btn4", "text": "Stabbing", "color": "gray" },
+      { "id": "nature_btn5", "text": "Other", "color": "gray" }
+    ],
+    "button_type": "normal"
+  },
 
-    {
-        "token": "token#4",
-        "button": [
-            {"id":"duration_btn1", "text":"Several hours to a few days"},
-            {"id":"duration_btn3", "text":"Less than an hour or longer than a few days"}
-        ],
-        "button_type": "normal"
-    },
+  {
+    "token": "token#4",
+    "button": [
+      {
+        "id": "duration_btn1",
+        "text": "Several hours to a few days",
+        "color": "red"
+      },
+      {
+        "id": "duration_btn3",
+        "text": "Less than an hour or longer than a few days",
+        "color": "blue"
+      }
+    ],
+    "button_type": "normal"
+  },
 
-    {
-        "token": "token#5",
-        "button": [
-            {"id":"factor_btn1", "text":"Stress"},
-            {"id":"factor_btn2", "text":"Hormonal changes"},
-            {"id":"factor_btn3", "text":"Certain foods"},
-            {"id":"factor_btn4", "text":"Lack of sleep"},
-            {"id":"factor_btn5", "text":"Other triggers"}
-        ],
-        "button_type": "check_button"
-    },
+  {
+    "token": "token#5",
+    "button": [
+      { "id": "factor_btn1", "text": "Stress", "color": "gray" },
+      { "id": "factor_btn2", "text": "Hormonal changes", "color": "gray" },
+      { "id": "factor_btn5", "text": "Other triggers", "color": "gray" },
+      { "id": "factor_btn3", "text": "Certain foods", "color": "gray" },
+      { "id": "factor_btn4", "text": "Lack of sleep", "color": "gray" }
+    ],
+    "button_type": "check_button"
+  },
 
-    {
-        "token": "token#6",
-        "button": [
-            {"id":"symptoms_btn1", "text":"Nausea"},
-            {"id":"symptoms_btn2", "text":"Vomiting"},
-            {"id":"symptoms_btn3", "text":"Sensitivity to light (photophobia)"},
-            {"id":"symptoms_btn4", "text":"Sensitivity to sound (phonophobia)"},
-            {"id":"symptoms_btn5", "text":"Visual disturbances (aura)"}
-        ],
-        "button_type": "check_button"
-    }
+  {
+    "token": "token#6",
+    "button": [
+      { "id": "symptoms_btn1", "text": "Nausea", "color": "gray" },
+      { "id": "symptoms_btn2", "text": "Vomiting", "color": "gray" },
+      {
+        "id": "symptoms_btn3",
+        "text": "Sensitivity to light (photophobia)",
+        "color": "gray"
+      },
+      {
+        "id": "symptoms_btn4",
+        "text": "Sensitivity to sound (phonophobia)",
+        "color": "gray"
+      },
+      {
+        "id": "symptoms_btn5",
+        "text": "Visual disturbances (aura)",
+        "color": "gray"
+      }
+    ],
+    "button_type": "check_button"
+  }
 ]

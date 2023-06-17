@@ -1,11 +1,34 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import UserData from "../contexts/UserData";
+import { CONSTANT } from "../CONSTANT.jsx";
+import axios from "axios";
 
 const Session = () => {
-  // For description
-  const [mode, setMode] = useState("doctor");
+  const { session, setSession } = useContext(UserData);
 
-  const [sessions, setSessions] = useState(sessionsData);
+  // For description
+  const [mode, setMode] = useState(session?.personal?.userType ?? "patient");
+  const [sessions, setSessions] = useState([]);
+
+  const getSessions = async () => {
+    await axios
+      .put(CONSTANT.server + `conversation`, {
+        type: "sessions",
+        user_id: session?.personal?.id,
+      })
+      .then((payload) => {
+        setSessions(payload.data);
+      })
+      .catch((e) => console.log(e));
+  };
+
+  useEffect(() => {
+    if (session?.personal?.id !== "") {
+      getSessions();
+    }
+  }, [session]);
+
   const [keywords, setKeywords] = useState(keywordsData);
   const [chats, setChats] = useState(chatsData);
   const [activeMember, setactiveMember] = useState("John");
@@ -37,53 +60,16 @@ const Session = () => {
           </select>
           <div className="h-full overflow-y-auto hideScroll pb-10">
             <div className="flex flex-col space-y-3 my-5  pb-4">
-              {/* Design 1  */}
               {sessions.map((session, index) => {
                 return (
                   <div
                     key={index}
-                    className="bg-teal-100 border-t-4 border-emerald-500 rounded-b text-emerald-800 px-4 py-3 shadow-md"
-                    role="alert"
+                    sessionId={session?.sessionId}
+                    className="cursor-pointer opacity-100 hover:opacity-70 duration-300 transition-all rounded-lg bg-gradient-to-r from-blue-500 to-teal-400 text-white px-4 py-3 shadow-md"
                   >
-                    <div className="flex">
-                      <div>
-                        <p className="font-bold text-xl capitalize">
-                          {" "}
-                          {session.name} {index + 1}
-                        </p>
-                        <p className="text-xs">{session.desc}</p>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-              {sessions.map((session, index) => {
-                return (
-                  <div
-                    key={index}
-                    className="relative w-full px-4 py-3 flex items-center justify-center bg-gradient-to-r from-teal-400 to-blue-500 rounded-md shadow-lg cursor-pointer"
-                  >
-                    <div className="absolute inset-0 border-l-4 border-teal-600 rounded-md"></div>
-                    <div className="text-white">
-                      <h1 className="text-xl font-bold  capitalize">
-                        {session.name} {index + 1}
-                      </h1>
-                      <p className="text-xs">{session.desc}</p>
-                    </div>
-                  </div>
-                );
-              })}
-              {sessions.map((session, index) => {
-                return (
-                  <div
-                    key={index}
-                    className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
-                    role="alert"
-                  >
-                    <h1 className="text-xl font-bold  capitalize">
-                      {session.name} {index + 1}
-                    </h1>
-                    <p className="text-xs">{session.desc}</p>
+                    <p className="font-bold text-xl capitalize">
+                      Session#{index + 1}
+                    </p>
                   </div>
                 );
               })}
@@ -97,10 +83,9 @@ const Session = () => {
               className="text-4xl md:text-5xl font-extrabold leading-tighter tracking-tighter mb-4 aos-init aos-animate"
               data-aos="zoom-y-out"
             >
-              My,
+              My{" "}
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400">
-                {" "}
-                Session!{" "}
+                Sessions
               </span>
             </h1>
           </div>

@@ -18,10 +18,24 @@ function Layout(props) {
     access_token: "",
     personal: {
       id: "",
-      name: "",
-      email: "",
+      firstName: "",
+      lastName: "",
       username: "",
-      signedUpAt: "",
+      gender: "",
+      dateOfBirth: "",
+      phoneNumber: "",
+      email: "",
+      country: "",
+      state: "",
+      street: "",
+      existingConditions: "",
+      allergies: "",
+      currentMedications: "",
+      days: "",
+      hours: "",
+      speciality: "",
+      affiliation: "",
+      timestamp: "",
     },
     isLoggedIn: false,
   };
@@ -37,6 +51,12 @@ function Layout(props) {
     }
   }, []);
   const value = { session, setSession };
+  if (props.mode === "navbar-less") {
+    return (
+      <UserData.Provider value={value}>{props.children}</UserData.Provider>
+    );
+  }
+
   return (
     <UserData.Provider value={value}>
       <div className="__Layout">

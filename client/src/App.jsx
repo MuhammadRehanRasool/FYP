@@ -6,7 +6,7 @@ import Layout from "./layouts/Layout";
 import Landing from "./views/Landing";
 import Login from "./auth/Login";
 import Home from "./views/Home";
-import Test from "./views/Test";
+import Chat from "./views/Chat";
 import PatientPortal from "./patientPortal/PatientPortal";
 import HowItWorks from "./views/HowItWorks";
 import Navbar from "./components/Navbar";
@@ -18,22 +18,6 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          {/* <Route path="/patient-portal" element={<PatientPortal />} /> */}
-          <Route
-            path="/patient-portal"
-            element={
-              <Layout mode="tt">
-                <PatientPortal />
-              </Layout>
-            }
-          />
-          <Route path="/chat" element={<Test />} />
-          <Route
-            path="/patient-register"
-            element={<Register mode="patient" />}
-          />
-          <Route path="/doctor-register" element={<Register mode="doctor" />} />
-          <Route path="/login" element={<Login />} />
           <Route
             path="/"
             element={
@@ -42,6 +26,28 @@ function App() {
               </Layout>
             }
           />
+          <Route
+            path="/patient-portal"
+            element={
+              <Layout mode="tt">
+                <PatientPortal />
+              </Layout>
+            }
+          />
+          <Route
+            path="/chat"
+            element={
+              <Layout mode="navbar-less">
+                <Chat />
+              </Layout>
+            }
+          />
+          <Route
+            path="/patient-register"
+            element={<Register mode="patient" />}
+          />
+          <Route path="/doctor-register" element={<Register mode="doctor" />} />
+          <Route path="/login" element={<Login />} />
           <Route
             path="/about-us"
             element={
@@ -71,6 +77,14 @@ function App() {
             element={
               <Layout mode="tt">
                 <Profile />
+              </Layout>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <Layout>
+                <Landing />
               </Layout>
             }
           />

@@ -62,3 +62,8 @@
     outline: none;
     background-color: transparent;
  }
+
+ .blend-screen {
+   mix-blend-mode: screen;
+ }
+ 

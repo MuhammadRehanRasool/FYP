@@ -67,7 +67,15 @@ class ViewUsersSerializer(serializers.ModelSerializer):
         )
 
 
-# class ViewCategorySerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = models.Category
-#         fields = "__all__"
+class ViewConversationSerializer(serializers.ModelSerializer):
+    user = ViewUsersSerializer()
+
+    class Meta:
+        model = models.Conversation
+        fields = "__all__"
+
+
+class ConversationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Conversation
+        fields = "__all__"

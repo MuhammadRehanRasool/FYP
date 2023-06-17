@@ -13,11 +13,11 @@ import axios from "axios";
 
 const Register = (props) => {
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   if (checkLoginFromLogin()) {
-  //     navigate("/");
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (checkLoginFromLogin()) {
+      navigate("/");
+    }
+  }, []);
 
   const [countries, setCountries] = useState(getCountries());
 
