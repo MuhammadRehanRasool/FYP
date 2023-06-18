@@ -1,13 +1,12 @@
-import axios from "axios";
-
 // export const CONSTANT = {
-//   server: "https://test0073.herokuapp.com/", // CHANGE WITH YOUR BACKEND LINK (/ is MUST IN END)
-//   client: "https://quizweb-client.netlify.app/", // CHANGE WITH YOUR FRONTEND LINK (/ is MUST IN END)
+//   client: "http://localhost:3000/", // CHANGE WITH YOUR BACKEND LINK (/ is MUST IN END)
+//   server: "http://127.0.0.1:8000/api/", // CHANGE WITH YOUR FRONTEND LINK (/ is MUST IN END)
 // };
 
 export const CONSTANT = {
-  client: "http://localhost:3000/", // CHANGE WITH YOUR BACKEND LINK (/ is MUST IN END)
-  server: "http://127.0.0.1:8000/api/", // CHANGE WITH YOUR FRONTEND LINK (/ is MUST IN END)
+  server: "https://rehansathio.pythonanywhere.com/api/", // CHANGE WITH YOUR BACKEND LINK (/ is MUST IN END)
+  admin: "http://rehansathio.pythonanywhere.com/admin/", // CHANGE WITH YOUR BACKEND LINK (/ is MUST IN END)
+  client: "http://rehansathio.pythonanywhere.com/", // CHANGE WITH YOUR FRONTEND LINK (/ is MUST IN END)
 };
 
 export const checkLoginFromLogin = () => {

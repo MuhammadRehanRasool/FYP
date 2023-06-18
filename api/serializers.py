@@ -79,3 +79,30 @@ class ConversationSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Conversation
         fields = "__all__"
+
+
+class ViewPrescriptionSerializer(serializers.ModelSerializer):
+    doctor = ViewUsersSerializer()
+
+    class Meta:
+        model = models.Prescription
+        fields = "__all__"
+
+
+class PrescriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Prescription
+        fields = "__all__"
+
+
+class ViewKeywordSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Keyword
+        fields = "__all__"
+
+
+class KeywordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Keyword
+        fields = "__all__"

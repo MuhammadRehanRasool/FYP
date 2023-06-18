@@ -17,6 +17,8 @@ class UserAdmin(admin.ModelAdmin):
 
 admin.site.register(models.CustomUser, UserAdmin)
 admin.site.register(models.Conversation)
+admin.site.register(models.Prescription)
+admin.site.register(models.Keyword)
 
 
 admin.site.site_header = "FYP Backend System ✨"

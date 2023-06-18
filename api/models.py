@@ -54,3 +54,31 @@ class Conversation(models.Model):
 
     def __str__(self):
         return f'{self.sessionId}'
+
+
+class Prescription(models.Model):
+    doctor = models.ForeignKey(
+        CustomUser,
+        on_delete=models.CASCADE, blank=True, null=True
+    )
+    sessionId = models.CharField(max_length=256)
+    message = models.TextField(blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = "Prescriptions"
+
+    def __str__(self):
+        return f'{self.sessionId}'
+
+
+class Keyword(models.Model):
+    sessionId = models.CharField(max_length=256)
+    keywords = models.TextField(blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = "Keywords"
+
+    def __str__(self):
+        return f'{self.sessionId}'

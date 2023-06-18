@@ -29,7 +29,7 @@ function App() {
           <Route
             path="/patient-portal"
             element={
-              <Layout mode="tt">
+              <Layout>
                 <PatientPortal />
               </Layout>
             }
@@ -67,7 +67,7 @@ function App() {
           <Route
             path="/sessions"
             element={
-              <Layout mode="tt">
+              <Layout>
                 <Session />
               </Layout>
             }
@@ -75,7 +75,7 @@ function App() {
           <Route
             path="/my-profile"
             element={
-              <Layout mode="tt">
+              <Layout>
                 <Profile />
               </Layout>
             }

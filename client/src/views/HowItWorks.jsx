@@ -1,7 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const HowItWorks = () => {
+  const [steps, setSteps] = useState([
+    {
+      title: "User Registration",
+      desc: "Users create an account on ChatDoc, providing their basic information and medical history, ensuring a personalized healthcare experience.",
+    },
+    {
+      title: "Symptom Assessment",
+      desc: "Users engage in a conversation with ChatDoc, answering a series of questions about their symptoms and health concerns, providing relevant details for accurate evaluation.",
+    },
+    {
+      title: "Secure Data Transmission",
+      desc: "Once the user submits their responses, ChatDoc securely transfers the information to a qualified doctor, ensuring privacy and confidentiality.",
+    },
+    {
+      title: "Doctor Evaluation",
+      desc: "A specialized doctor reviews the user's inputs, carefully analyzing the provided information, and leveraging their medical expertise to evaluate the symptoms.",
+    },
+    {
+      title: "Personalized Prescription",
+      desc: "Based on the evaluation, the doctor formulates a personalized prescription, including medication recommendations, dosage instructions, and any additional medical advice deemed necessary.",
+    },
+    {
+      title: "Prescription Delivery",
+      desc: "The doctor's prescription is securely transmitted back to the user through ChatDoc. Users can conveniently access and review the prescription within the application.",
+    },
+  ]);
+
   return (
     <div>
       <div className="text-center mt-10 md:pb-16">
@@ -20,7 +47,10 @@ const HowItWorks = () => {
         </h1>
 
         <div class="my-10 relative w-full h-[20vh] overflow-hidden">
-          <img src="https://wallpaperaccess.com/full/3275630.jpg" class="w-full h-full object-cover" />
+          <img
+            src="https://wallpaperaccess.com/full/3275630.jpg"
+            class="w-full h-full object-cover"
+          />
           <div class="absolute inset-0 bg-black opacity-50"></div>
         </div>
         <div className="max-w-3xl mx-auto">
@@ -29,8 +59,10 @@ const HowItWorks = () => {
             data-aos="zoom-y-out"
             data-aos-delay={150}
           >
-            We help people solve their health problems and find the right
-            treatment
+            Unlock the power of ChatDoc and experience healthcare at your
+            fingertips. From expert medical advice to personalized
+            prescriptions, let ChatDoc work its magic and bring wellness
+            straight to you, making healthcare a breeze.
           </p>
           <div
             className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center aos-init aos-animate"
@@ -56,7 +88,7 @@ const HowItWorks = () => {
             style={{ left: "50%" }}
           ></div>
 
-          {[1, 2, 3, 4, 5].map((elem, index) => {
+          {steps.map((elem, index) => {
             return index % 2 == 0 ? (
               <>
                 {" "}
@@ -69,14 +101,10 @@ const HowItWorks = () => {
                   </div>
                   <div className="order-1 bg-gray-100 rounded-lg shadow-xl w-5/12 px-6 py-4">
                     <h3 className="mb-3 font-bold text-gray-800 text-xl">
-                      Lorem Ipsum
+                      {elem?.title}
                     </h3>
                     <p className="text-sm leading-snug tracking-wide text-gray-900 text-opacity-100">
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry. Lorem Ipsum has been the industry's
-                      standard dummy text ever since the 1500s, when an unknown
-                      printer took a galley of type and scrambled it to make a
-                      type specimen book.
+                      {elem?.desc}
                     </p>
                   </div>
                 </div>
@@ -93,14 +121,10 @@ const HowItWorks = () => {
                   </div>
                   <div className="order-1 bg-blue-500 rounded-lg shadow-xl w-5/12 px-6 py-4">
                     <h3 className="mb-3 font-bold text-white text-xl">
-                      Lorem Ipsum
+                      {elem?.title}
                     </h3>
                     <p className="text-sm font-medium leading-snug tracking-wide text-white text-opacity-100">
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry. Lorem Ipsum has been the industry's
-                      standard dummy text ever since the 1500s, when an unknown
-                      printer took a galley of type and scrambled it to make a
-                      type specimen book.
+                      {elem?.desc}
                     </p>
                   </div>
                 </div>

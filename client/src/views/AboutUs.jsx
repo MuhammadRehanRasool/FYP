@@ -12,11 +12,14 @@ const AboutUs = () => {
               className="text-5xl md:text-6xl font-extrabold leading-tighter tracking-tighter mb-4 aos-init aos-animate"
               data-aos="zoom-y-out"
             >
-              Our Story
+              About Us
             </h1>
 
             <div class="my-10 relative w-full h-[20vh] overflow-hidden">
-              <img src="https://c1.wallpaperflare.com/preview/532/1002/497/doctor-surgeon-operation-instruments.jpg" class="w-full h-full object-cover" />
+              <img
+                src="https://c1.wallpaperflare.com/preview/532/1002/497/doctor-surgeon-operation-instruments.jpg"
+                class="w-full h-full object-cover"
+              />
               <div class="absolute inset-0 bg-black opacity-50"></div>
             </div>
             <div className="max-w-3xl mx-auto">
@@ -25,9 +28,52 @@ const AboutUs = () => {
                 data-aos="zoom-y-out"
                 data-aos-delay={150}
               >
-                We are an AI chatbot platform that assists patients in
-                understanding their diseases, asking questions, and generating
-                keywords for better diagnosis.
+                ChatDoc is an innovative chat-based application designed to
+                provide convenient and efficient healthcare services. Through an
+                intuitive interface, users can engage in a conversation with the
+                application, answering a series of questions related to their
+                health concerns and symptoms. Once the user submits their
+                responses, ChatDoc securely transfers this information to a
+                qualified doctor.
+              </p>
+              <p
+                className="text-xl text-gray-600 mb-8 aos-init aos-animate"
+                data-aos="zoom-y-out"
+                data-aos-delay={150}
+              >
+                The doctor, who specializes in the relevant medical field,
+                reviews the user's inputs and carefully evaluates the provided
+                information. Leveraging their expertise and medical knowledge,
+                the doctor formulates a personalized prescription tailored to
+                the user's specific needs. The prescription may include
+                medication recommendations, dosage instructions, and any
+                additional medical advice deemed necessary.
+              </p>
+              <p
+                className="text-xl text-gray-600 mb-8 aos-init aos-animate"
+                data-aos="zoom-y-out"
+                data-aos-delay={150}
+              >
+                Upon completion, the doctor's prescription is transmitted back
+                to the user through ChatDoc's secure channel. Users can
+                conveniently access and review the prescription within the
+                application. ChatDoc ensures the privacy and confidentiality of
+                all user data, adhering to strict security protocols and
+                maintaining compliance with applicable privacy regulations.
+              </p>
+              <p
+                className="text-xl text-gray-600 mb-8 aos-init aos-animate"
+                data-aos="zoom-y-out"
+                data-aos-delay={150}
+              >
+                This chat-based healthcare solution offers numerous benefits. It
+                eliminates the need for physical visits to a doctor's office,
+                saving users valuable time and resources. It also provides a
+                convenient platform for seeking medical advice and obtaining
+                prescriptions from the comfort of one's own home or any location
+                with internet access. By leveraging technology, ChatDoc aims to
+                bridge the gap between patients and healthcare professionals,
+                enhancing accessibility to quality healthcare services.
               </p>
               <div
                 className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center aos-init aos-animate"

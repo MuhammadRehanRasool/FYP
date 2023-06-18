@@ -11,7 +11,10 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.hashers import make_password, check_password
-from django.db.models import Q
+from django.db.models import F, Min, Q, Value, BooleanField
+from django.db.models.functions import Concat
+from django.db.models import F, Min, OuterRef, Value, Case, When, Subquery
+import pickle
 
 
 def add_admin():
@@ -123,9 +126,6 @@ def get_bot_response(request, pk=None):
         bot_response = str(response.query_result.fulfillment_text)
         intent = str(response.query_result.intent.display_name)
 
-        # print("Fulfillment text:", bot_response)
-        # print("Detected intent:", intent)
-
         bot_response = bot_response.split('%')
 
         if len(bot_response) > 1:
@@ -163,26 +163,36 @@ def get_bot_response(request, pk=None):
                     button_type = data[i]["button_type"]
                     # break
 
-        question_tags = {
-            "token#1": "Intensity",
-            "token#2": "Duration",
-            "token#3": "Patterns",
-            "token#4": "Factors",
-            "token#5": "Trigger",
-            "token#6": "Symptoms",
-            "token#7": "Daily Occurrence",
-            "token#8": "Time",
-            "token#9": "Medication",
-            "token#10": "Changes in Symptoms",
-            "token#11": "Health Condition",
-            "token#12": "Family History",
-            "token#13": "During Headaches"
-        }
-
-        if token != "":
-            question_tag = question_tags.get(token.strip())
+        if intent == "headache - intensity":
+            question_tag = "Intensity"
+        elif intent == "headache - duration":
+            question_tag = "Duration"
+        elif intent == "headache - patterns":
+            question_tag = "Patterns"
+        elif intent == "headache - factors":
+            question_tag = "Factors"
+        elif intent == "trigger":
+            question_tag = "Trigger"
+        elif intent == "symptoms":
+            question_tag = "Symptoms"
+        elif intent == "daily":
+            question_tag = "Daily Occurrence"
+        elif intent == "time":
+            question_tag = "Time"
+        elif intent == "headache-med":
+            question_tag = "Medication"
+        elif intent == "headache-change":
+            question_tag = "Changes in Symptoms"
+        elif intent == "headache-health":
+            question_tag = "Health Condition"
+        elif intent == "headache-family":
+            question_tag = "Family History"
+        elif intent == "headache-during":
+            question_tag = "During Headaches"
         else:
             question_tag = None
+
+        print(intent)
 
     return JsonResponse({
         "type": "open" if token == "" else "close",
@@ -192,54 +202,6 @@ def get_bot_response(request, pk=None):
         "is_last": chat_ended,
         "question_tag": question_tag,
     }, status=status.HTTP_200_OK)
-
-
-# button = [
-#     {"id": "yes_btn", "text": "Yes"},
-#     {"id": "no_btn", "text": "No"}
-# ]
-
-
-# unique_intents = set()
-
-# for btn in button_data:
-#     intent = btn.get("intent", "")
-#     if intent:
-#         unique_intents.add(intent)
-
-# print(unique_intents)
-
-
-# ...
-
-# if intent == "headache - intensity":
-#     question_tag = "Intensity"
-# elif intent == "headache - duration":
-#     question_tag = "Duration"
-# elif intent == "headache - patterns":
-#     question_tag = "Patterns"
-# elif intent == "headache - factors":
-#     question_tag = "Factors"
-# elif intent == "trigger":
-#     question_tag = "Trigger"
-# elif intent == "symptoms":
-#     question_tag = "Symptoms"
-# elif intent == "daily":
-#     question_tag = "Daily Occurrence"
-# elif intent == "time":
-#     question_tag = "Time"
-# elif intent == "headache-med":
-#     question_tag = "Medication"
-# elif intent == "headache-change":
-#     question_tag = "Changes in Symptoms"
-# elif intent == "headache-health":
-#     question_tag = "Health Condition"
-# elif intent == "headache-family":
-#     question_tag = "Family History"
-# elif intent == "headache-during":
-#     question_tag = "During Headaches"
-# else:
-#     question_tag = None
 
 
 @api_view(['POST', 'PUT', 'GET'])
@@ -261,15 +223,141 @@ def conversation(request, pk=None):
         type = data["type"]
         user_id = data["user_id"]
         if type == "sessions":
-            query = models.Conversation.objects.filter(
-                Q(user__id=int(user_id)) & ~Q(sessionId=''),
-            ).values('sessionId').distinct()
+            mode = data["mode"]
+            if mode == "patient":
+                prescription_subquery = models.Prescription.objects.filter(
+                    sessionId=OuterRef('sessionId')
+                ).values('sessionId')
+                query = models.Conversation.objects.filter(
+                    Q(user__id=int(user_id)) & ~Q(sessionId='')
+                ).values('sessionId').annotate(
+                    first_timestamp=Min('timestamp'),
+                    user_fullname=Concat(
+                        'user__firstName', Value(' '), 'user__lastName'),
+                    is_prescribed=Case(
+                        When(sessionId__in=Subquery(
+                            prescription_subquery), then=Value(True)),
+                        default=Value(False),
+                        output_field=BooleanField()
+                    )
+                ).order_by('-first_timestamp')
+            elif mode == "doctor":
+                prescription_subquery = models.Prescription.objects.filter(
+                    sessionId=OuterRef('sessionId')
+                ).values('sessionId')
+                query = models.Conversation.objects.filter(
+                ).values('sessionId').annotate(
+                    first_timestamp=Min('timestamp'),
+                    user_fullname=Concat(
+                        'user__firstName', Value(' '), 'user__lastName'),
+                    is_prescribed=Case(
+                        When(sessionId__in=Subquery(
+                            prescription_subquery), then=Value(True)),
+                        default=Value(False),
+                        output_field=BooleanField()
+                    )
+                ).order_by('-first_timestamp')
             session_ids = list(query)
             return JsonResponse(session_ids, safe=False)
         elif type == "chats":
             session_id = data["session_id"]
             query = models.Conversation.objects.filter(
-                Q(user__id=int(user_id)) & Q(sessionId=session_id)
-            ).order_by('timestamp')
+                Q(sessionId=session_id)
+            ).order_by('id')
         serializer = serializers.ViewConversationSerializer(query, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+
+@api_view(['POST', 'PUT', 'GET'])
+def prescription(request, pk=None):
+    if request.method == "POST":
+        # ADD A prescription
+        data = JSONParser().parse(request)
+        # Check if the prescription already exists for the sessionId and doctor
+        sessionId = data.get('sessionId')
+        prescription_exists = models.Prescription.objects.filter(
+            sessionId=sessionId
+        ).exists()
+        if prescription_exists:
+            return JsonResponse({
+                "message": "Prescription already exists for this session."
+            }, status=status.HTTP_400_BAD_REQUEST)
+        serializer = serializers.PrescriptionSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    if request.method == "PUT":
+        # GET prescriptions
+        data = JSONParser().parse(request)
+        sessionId = data["sessionId"]
+        query = models.Prescription.objects.filter(sessionId=sessionId).first()
+        serializer = serializers.ViewPrescriptionSerializer(query)
+        return JsonResponse(serializer.data, safe=False)
+
+
+@api_view(['POST', 'PUT', 'GET'])
+def keyword(request, pk=None):
+    if request.method == "POST":
+        # ADD A keyword
+        data = JSONParser().parse(request)
+        convo = data["convo"]
+        keywords = []
+        open_messages = []
+
+        for i in range(1, len(convo)):
+            current_obj = convo[i]
+            if current_obj.get("type") == "close" and current_obj.get("question_tag"):
+                try:
+                    next_obj = convo[i + 1]
+                    for button in current_obj.get("button", []):
+                        if button.get("text") == next_obj.get("message"):
+                            keywords.append({
+                                "keyword": next_obj.get("message") if current_obj.get("question_tag") in ["Factors", "Symptoms"] else current_obj.get("question_tag"),
+                                "color": button.get("color"),
+                                "type": "close"
+                            })
+                            break
+                except:
+                    pass
+            elif current_obj.get("type") == "open":
+                try:
+                    next_obj = convo[i + 1]
+                    open_messages.append({
+                        "keyword": next_obj.get("message"),
+                        "color": "gray",
+                        "type": "open"
+                    })
+                except:
+                    pass
+
+        # print(keywords)
+        # print(open_messages)
+
+        # with open('static/keyword_extraction_model.pkl', 'rb') as file:
+        #     loaded_function = pickle.load(file)
+        #     print(loaded_function(
+        #         ["I'm having headache because of my sleep routine"]))
+
+        # Merge keywords and open_messages
+        merged_data = keywords + open_messages
+
+        # Convert merged_data to JSON format
+        merged_data_json = json.dumps(merged_data)
+
+        # Create a new Keyword entry
+        try:
+            keyword_entry = models.Keyword.objects.create(
+                sessionId=data["sessionId"],
+                keywords=merged_data_json
+            )
+        except:
+            pass
+        return JsonResponse("done", safe=False)
+    if request.method == "PUT":
+        # GET keyword
+        data = JSONParser().parse(request)
+        sessionId = data["sessionId"]
+        query = models.Keyword.objects.filter(sessionId=sessionId).first()
+        serializer = serializers.ViewKeywordSerializer(query)
         return JsonResponse(serializer.data, safe=False)

@@ -65,6 +65,7 @@ function Layout(props) {
           __init_session={__init_session}
           setSession={setSession}
           mode={props?.mode}
+          session={session}
         />
         <div className="mt-5">{props.children}</div>
       </div>

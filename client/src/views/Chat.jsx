@@ -50,7 +50,7 @@ export default function Chat() {
           from: "ChatDoc",
           ...payload.data,
         };
-        if (session?.isLoggedIn) {
+        if (session?.isLoggedIn && chats.length > 2) {
           sendToDatabase(__data__);
         }
         setChats([...chats, __data__]);
@@ -105,6 +105,7 @@ export default function Chat() {
             to: "/login",
           });
         }
+        extractKeywords();
         setChats([
           ...chats,
           {
@@ -128,11 +129,23 @@ export default function Chat() {
     if (payload?.message === "") {
       payload["is_last"] = true;
     }
+    // await axios
+    //   .post(CONSTANT.server + `conversation`, {
+    //     user: session?.personal?.id,
+    //     sessionId: sessionId,
+    //     payload: JSON.stringify(payload),
+    //   })
+    //   .then(() => {
+    //     // Done
+    //   })
+    //   .catch((e) => console.log(e));
+  };
+
+  const extractKeywords = async () => {
     await axios
-      .post(CONSTANT.server + `conversation`, {
-        user: session?.personal?.id,
+      .post(CONSTANT.server + `keyword`, {
+        convo: chats,
         sessionId: sessionId,
-        payload: JSON.stringify(payload),
       })
       .then(() => {
         // Done

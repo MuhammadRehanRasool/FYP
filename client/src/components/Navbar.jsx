@@ -40,12 +40,19 @@ export default function Navbar(props) {
               </Link>
             </>
           ) : (
-            <button
-              onClick={logout}
-              className="ml-3 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-            >
-              Logout
-            </button>
+            <>
+              <div className="w-full flex items-center justify-center">
+                <p className="text-xs flex flex-row">
+                  @{props?.session?.personal?.username}{" "}(<p className="capitalize">{props?.session?.personal?.userType}</p>)
+                </p>
+              </div>
+              <button
+                onClick={logout}
+                className="ml-3 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+              >
+                Logout
+              </button>
+            </>
           )}
           <button
             data-collapse-toggle="navbar-cta"

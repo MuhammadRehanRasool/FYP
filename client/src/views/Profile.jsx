@@ -1,28 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { Link } from "react-router-dom";
+import { CONSTANT } from "../CONSTANT.jsx";
+import axios from "axios";
+import UserData from "../contexts/UserData";
 
 export default function Profile(props) {
   // form field change based on mode
-  const [mode, setMode] = useState("patient");
-  const __init = {
-    firstName: "Bruce",
-    lastName: "Wayne",
-    gender: "Male",
-    dateOfBirth: "05/01/2003",
-    phoneNumber: "032211342",
-    emailAddress: "brucewayne@anywhere.com",
-    existingConditions: "High Blood Pressure",
-    country: "Pakistan",
-    city: "Karachi",
-    alergies: "Skin",
-    currentMedications: "cipralex",
-    street: "DHA Phase II , Street 4",
-    days: "Monday",
-    hours: "10",
-    speciality: "Heart",
-    affiliation: "MBBS",
-  };
-  const [credentials, setCredentials] = useState(__init);
+  const { session, setSession } = useContext(UserData);
+  const [mode, setMode] = useState(session?.personal?.userType ?? "patient");
+  const [credentials, setCredentials] = useState(session?.personal);
+  useEffect(() => {
+    if (session?.personal?.userType !== "") {
+      setMode(session?.personal?.userType);
+      setCredentials(session?.personal);
+    }
+  }, [session]);
+  // const __init = {
+  //   firstName: "Bruce",
+  //   lastName: "Wayne",
+  //   gender: "Male",
+  //   dateOfBirth: "05/01/2003",
+  //   phoneNumber: "032211342",
+  //   emailAddress: "brucewayne@anywhere.com",
+  //   existingConditions: "High Blood Pressure",
+  //   country: "Pakistan",
+  //   city: "Karachi",
+  //   alergies: "Skin",
+  //   currentMedications: "cipralex",
+  //   street: "DHA Phase II , Street 4",
+  //   days: "Monday",
+  //   hours: "10",
+  //   speciality: "Heart",
+  //   affiliation: "MBBS",
+  // };
   const [editInformation, setEditInformation] = useState(false);
 
   const handleChange = (e) => {
@@ -35,7 +45,13 @@ export default function Profile(props) {
   const renderNormalDiv = (text) => {
     return (
       <div className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-100 rounded py-3 text-left px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ">
-        {text}
+        {text === "male"
+          ? "Male"
+          : text === "female"
+          ? "Female"
+          : text === ""
+          ? "-"
+          : text}
       </div>
     );
   };
@@ -64,12 +80,11 @@ export default function Profile(props) {
             >
               {editInformation && "Edit "}
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400">
-                {" "}
-                Profile!{" "}
+                My Info
               </span>
             </h1>
 
-            <svg
+            {/* <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -83,7 +98,12 @@ export default function Profile(props) {
                 strokeLinejoin="round"
                 d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
               />
-            </svg>
+            </svg> */}
+          </div>
+
+          <div className="text-lg flex flex-row text-center justify-center items-center">
+            @{session?.personal?.username} (
+            <p className="capitalize">{session?.personal?.userType}</p>)
           </div>
 
           <div className="w-full max-w-lg mt-10 mx-auto">
@@ -182,7 +202,7 @@ export default function Profile(props) {
 
                 {editInformation
                   ? renderInput("emailAddress", "email")
-                  : renderNormalDiv(credentials.emailAddress)}
+                  : renderNormalDiv(credentials.email)}
               </div>
             </div>
             <div className="flex flex-wrap -mx-3 mb-3">
@@ -225,15 +245,15 @@ export default function Profile(props) {
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                   htmlFor="grid-state"
                 >
-                  City
+                  State
                 </label>
                 {editInformation ? (
                   <div className="relative">
                     <select
                       className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-state"
-                      name="city"
-                      value={credentials.city}
+                      name="state"
+                      value={credentials.state}
                       onChange={handleChange}
                     >
                       <option>Karachi</option>
@@ -250,7 +270,7 @@ export default function Profile(props) {
                     </div>
                   </div>
                 ) : (
-                  renderNormalDiv(credentials.city)
+                  renderNormalDiv(credentials.state)
                 )}
               </div>
             </div>
@@ -391,7 +411,9 @@ export default function Profile(props) {
                       ></path>
                     </svg>
                     <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                      <span className="font-semibold">Click to upload Profile Image</span>
+                      <span className="font-semibold">
+                        Click to upload Profile Image
+                      </span>
                     </p>
                     <p className="text-xs text-gray-500 dark:text-gray-400">
                       SVG, PNG, JPG or GIF (MAX. 800x400px)
