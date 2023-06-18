@@ -18,7 +18,7 @@ from django.urls import path, include, re_path
 from django.shortcuts import render
 
 def index(request):
-    return render(request, "dist/index.html")
+    return render(request, "client/dist/index.html")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
