@@ -4,6 +4,7 @@ from rest_framework.response import Response
 import json
 from rest_framework import status
 from . import serializers
+from django.conf import settings
 from . import models
 from django.http.response import JsonResponse, HttpResponse
 from rest_framework.parsers import JSONParser
@@ -15,6 +16,10 @@ from django.db.models import F, Min, Q, Value, BooleanField
 from django.db.models.functions import Concat
 from django.db.models import F, Min, OuterRef, Value, Case, When, Subquery
 import pickle
+from pathlib import Path
+import os
+
+BASE_DIR = settings.BASE_DIR
 
 
 def add_admin():
@@ -150,7 +155,7 @@ def get_bot_response(request, pk=None):
             bot_response = f"Based on your responses, it appears that you have a {category}. We recommend waiting for the doctor's response on our portal, where they will provide you with further guidance and appropriate management of your condition. They will review your responses in detail and offer personalized advice and treatment options based on your specific needs."
             chat_ended = True
 
-        with open('static/Buttons.json') as json_file:
+        with open(os.path.join(BASE_DIR, 'static', 'Buttons.json')) as json_file:
             data = json.load(json_file)
 
         button = []
