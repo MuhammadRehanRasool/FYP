@@ -29,4 +29,4 @@ __samples__/
 *.bak
 
 # # Database
-# *.sqlite3
+*.sqlite3
