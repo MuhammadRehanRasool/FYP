@@ -155,7 +155,7 @@ def get_bot_response(request, pk=None):
             bot_response = f"Based on your responses, it appears that you have a {category}. We recommend waiting for the doctor's response on our portal, where they will provide you with further guidance and appropriate management of your condition. They will review your responses in detail and offer personalized advice and treatment options based on your specific needs."
             chat_ended = True
 
-        with open(os.path.join(BASE_DIR, 'static', 'Buttons.json')) as json_file:
+        with open(os.path.join(BASE_DIR, 'static', 'buttons.json')) as json_file:
             data = json.load(json_file)
 
         button = []
