@@ -129,16 +129,16 @@ export default function Chat() {
     if (payload?.message === "") {
       payload["is_last"] = true;
     }
-    // await axios
-    //   .post(CONSTANT.server + `conversation`, {
-    //     user: session?.personal?.id,
-    //     sessionId: sessionId,
-    //     payload: JSON.stringify(payload),
-    //   })
-    //   .then(() => {
-    //     // Done
-    //   })
-    //   .catch((e) => console.log(e));
+    await axios
+      .post(CONSTANT.server + `conversation`, {
+        user: session?.personal?.id,
+        sessionId: sessionId,
+        payload: JSON.stringify(payload),
+      })
+      .then(() => {
+        // Done
+      })
+      .catch((e) => console.log(e));
   };
 
   const extractKeywords = async () => {
