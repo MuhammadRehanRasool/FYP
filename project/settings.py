@@ -146,4 +146,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "migrane-rkss-55be99e81de2.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = {
+  "type": "service_account",
+  "project_id": "migrane-rkss",
+  "private_key_id": "55be99e81de2033f81c74e63d1ac9dec40329c11",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDW7oaf+xX7Dhq0\nKfQBXncKWR/1NE0if7oNMQOgkYaumc+0QcMWDDYnRJsZaiGCrA2wZx+CI4dRg9uG\nFQZDJaJkg78IKGWZLG/nQVvMHhAXn3rb6a2gWhhpk4MQDeOQmCGrdN+54F1ts8u+\nzKwHU/gx3+6/+XRgDHebmeyNuHpzeEOfvhP55SADPvsw3DGGlIKHNnz+q0YEijo/\nd5KU2Qm5UXU8bynXYaUfKOYyXH/Yjc7y4nSu3j0rFhone9KFmz6+7uFZEIXgz2+Z\nXZ/qNRPHHmxRWHpjLqWQUmYPSFw3mHNKMlnf086eockDuMCGu514DJ2QGkfp+pNO\nW8ezBCatAgMBAAECggEADyhTh90aFTz5kXgd9FTC+hCuqh5t9tS20cRW+FAbBUg6\nois7GgcdcJKBilQg7d66uRSPX8r9TuMzgZa3p4JJcWOV1CTz2U64IOvL5gQUEskV\nTdoCe9BZcA9OSxJiWJRUrOCkAISmrMcPw4fFSrUCHWj9+j2aQUXPz5eWMP5wFaF7\nTuiq6wjGmIqRLPgxBbEPor8thOjLEngf/qdP97mKXAErhrVknmiTQpczBhY/5XSP\nuRBj10UT4nPk+4yXYLgyqJ6x7jD7ql8XEnWRvRT4sR+hMhjnuaRHeL+J2ixg0W+b\n2mr6NZFGNCRyAm23fNOA49O8ESwG6HMqMaG5UCAZ7wKBgQD5b/o6zVFiv8vgWOYl\np8f4JUteDBZuj9BF60TQXO6h+QMX9ujti1tVMXdTW4KuWiWu0dsz63nwL5QlQrps\ndGtMkaxpt5AAUAq0rjjtkbdW5a6Xs2m98j+ZdkUcLJ6BGlgLpKO0tmL870ZrPufW\nBF/bcypCcJPo8DLmdxwy+OKC7wKBgQDcliTrG+wBD5PpNnjIsuX7p6xQLLH1fXeL\nbxKgTLbAB6xunXpPB4/fEqi0eO6zdiDd1u4AMF/s9qVHtCNXGEXeUhLsDAU5Uix1\nfD8F90MaMnG+A8dTxXLGcGJ/3Bipol2DrnKE0j/p7oBsKvNat13QVAA50iZsUQqw\nL0aU37fAIwKBgQCHBRErUUZzsKRYXWa/DVIWRYHFd7+Qu3Ie1tpZ+2QE8zi0eSfe\npaebtvoDei6D2DI7rkb8lMNduzNy8+rbmC0YtmXgl8dwE+OnqAMSveTDOfLHFQvx\nELdSh42jUZe/BJaSPt2KjYuJpK+2j8eItrd4n59JdYzq81JqJCF0ifp6qwKBgFnd\nRR8PGf94pC5vRZel4jG6pmVnP/yd57TDRFhPyGfE+Id72lcV4pPjWx1i4wPzjQIz\nTHSBQKMd/EmQ5pDVz6j50MGfSAWJJ5mZS2eXyxuCD3p0uaC0IMUdBdPHC7kX73b0\n+6yGpwkbY/AtM0TyzOJRRmJH7eVUwsDyEZQW7Bn3AoGAQCY16gzpx40L8Bb1XQMd\nyZCqERg57gsDOuZxUDvl0+A2pVV/HiUIpceFygAV6jdrinwkXEvl3Y1s9EQ/xAp6\ndQR/TPA3WMAl03gt+CvFJDXeCuO1+ICLyMQQRz9zjUfKVSJbDlO20/NUK+WxUUmG\n6H+m3OfZk3ftxXE+mcr+/vA=\n-----END PRIVATE KEY-----\n",
+  "client_email": "dialogflow@migrane-rkss.iam.gserviceaccount.com",
+  "client_id": "112434905697604904324",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dialogflow%40migrane-rkss.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
+
