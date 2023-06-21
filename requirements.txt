@@ -3,3 +3,7 @@ djangorestframework==3.14.0
 django-cors-headers==3.14.0
 whitenoise==6.4.0
 dialogflow==1.1.1
+nltk==3.6.5
+scikit-learn
+scipy
+numpy

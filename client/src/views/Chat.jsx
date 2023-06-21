@@ -105,7 +105,9 @@ export default function Chat() {
             to: "/login",
           });
         }
-        extractKeywords();
+        if (session?.isLoggedIn) {
+          extractKeywords();
+        }
         setChats([
           ...chats,
           {

@@ -311,7 +311,7 @@ const Session = () => {
                     let styless = `bg-${keyword?.color}-500`;
                     return (
                       <div
-                        className={`${styless} text-white py-2 px-4 text-xs rounded-full`}
+                        className={`${styless} capitalize text-white py-2 px-4 text-xs rounded-full`}
                         role="alert"
                       >
                         {keyword?.keyword}

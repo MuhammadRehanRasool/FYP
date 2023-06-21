@@ -18,6 +18,7 @@ from django.db.models import F, Min, OuterRef, Value, Case, When, Subquery
 import pickle
 from pathlib import Path
 import os
+from .utils import keyword_extraction_pipeline
 
 BASE_DIR = settings.BASE_DIR
 
@@ -336,13 +337,12 @@ def keyword(request, pk=None):
                 except:
                     pass
 
-        # print(keywords)
-        # print(open_messages)
-
-        # with open('static/keyword_extraction_model.pkl', 'rb') as file:
-        #     loaded_function = pickle.load(file)
-        #     print(loaded_function(
-        #         ["I'm having headache because of my sleep routine"]))
+        try:
+            new_keywords = keyword_extraction_pipeline([item['keyword'] for item in open_messages])
+            for i in range(len(open_messages)):
+                open_messages[i]['keyword'] = new_keywords[i]
+        except:
+            pass
 
         # Merge keywords and open_messages
         merged_data = keywords + open_messages
